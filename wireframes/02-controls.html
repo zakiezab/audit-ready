@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Controls Library — Audit Ready Wireframe</title>
+<link rel="stylesheet" href="_shared.css">
+<style>
+/* Gap Detail Sheet */
+.sheet-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 60;
+  display: flex; justify-content: flex-end;
+}
+.sheet {
+  width: 480px; background: #1C1530; border-left: 1px solid var(--card-border);
+  display: flex; flex-direction: column; overflow-y: auto;
+  box-shadow: -16px 0 48px rgba(0,0,0,.4);
+}
+.sheet-header {
+  padding: 20px 24px; border-bottom: 1px solid var(--card-border);
+  display: flex; justify-content: space-between; align-items: flex-start;
+}
+.sheet-title { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+.sheet-meta  { font-size: 11px; color: var(--text-300); }
+.sheet-close { width: 28px; height: 28px; border-radius: 4px; border: none; background: rgba(255,255,255,.06); cursor: pointer; color: var(--text-300); font-size: 16px; line-height: 28px; text-align: center; }
+.sheet-body { padding: 20px 24px; flex: 1; }
+.sheet-section { margin-bottom: 20px; }
+.sheet-section-title { font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--text-300); margin-bottom: 10px; }
+.status-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
+.status-card { flex: 1; min-width: 80px; padding: 10px 12px; background: rgba(255,255,255,.03); border: 1px solid var(--card-border); border-radius: 4px; text-align: center; }
+.status-card-label { font-size: 9px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-300); margin-bottom: 4px; }
+.status-card-value { font-size: 14px; font-weight: 700; }
+.evidence-item { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,.04); font-size: 12px; }
+.evidence-item:last-child { border-bottom: none; }
+.evidence-icon { font-size: 16px; }
+.timeline-item { display: flex; gap: 12px; padding: 8px 0; }
+.timeline-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--primary); margin-top: 5px; flex-shrink: 0; }
+.timeline-text { font-size: 11px; color: var(--text-300); }
+.timeline-date { font-size: 10px; color: var(--text-400); margin-top: 2px; }
+.sheet-actions { padding: 16px 24px; border-top: 1px solid var(--card-border); display: flex; gap: 8px; }
+.btn-validate { flex: 1; background: rgba(34,197,94,.1); border: 1px solid rgba(34,197,94,.3); color: var(--risk-low); }
+.btn-reject   { flex: 1; background: rgba(239,68,68,.08); border: 1px solid rgba(239,68,68,.25); color: var(--risk-high); }
+.btn-export   { flex: 1; background: rgba(255,255,255,.04); border: 1px solid var(--card-border); color: var(--text-200); }
+</style>
+</head>
+<body>
+<!-- Sidebar -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L3 7l9 5 9-5-9-5zM3 17l9 5 9-5M3 12l9 5 9-5"/></svg></div>
+    <div><div class="logo-text">Audit Ready</div><div class="logo-sub">IT Governance</div></div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Overview</div>
+    <a class="nav-item" href="01-dashboard.html">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      Dashboard
+    </a>
+    <div class="nav-section-label">Audit Management</div>
+    <a class="nav-item active" href="02-controls.html">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Controls &amp; Gaps <span class="nav-badge">12</span>
+    </a>
+    <a class="nav-item" href="03-evidence.html">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      Evidence Hub
+    </a>
+    <a class="nav-item" href="04-regulations.html">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/><path d="M12 2v4M12 18v4"/></svg>
+      SAMA Regulations <span class="nav-badge">3</span>
+    </a>
+    <div class="nav-section-label">Workflow</div>
+    <a class="nav-item" href="05-governance.html">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+      Governance
+    </a>
+    <a class="nav-item" href="#">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/></svg>
+      Notifications <span class="nav-badge">5</span>
+    </a>
+  </nav>
+  <div class="sidebar-user">
+    <button class="user-btn"><div class="avatar">ZZ</div><div><div class="user-name">Zakie Zabar</div><div class="user-role">IT Governance Lead</div></div></button>
+  </div>
+</aside>
+
+<div class="main-area">
+  <header class="topbar">
+    <div class="breadcrumb">Audit Ready <span style="opacity:.3">›</span> <span class="current">Controls & Gaps</span></div>
+    <div class="topbar-right">
+      <div class="live-indicator"><span class="pulse"></span> SAMA Sync Active</div>
+      <div class="divider"></div>
+      <div class="search-bar"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Search...</div>
+      <button class="icon-btn notification-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/></svg></button>
+      <div class="divider"></div>
+      <div class="avatar topbar-avatar">ZZ</div>
+    </div>
+  </header>
+
+  <div class="page-content">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Controls Library</h1>
+        <p class="page-sub">10 controls · 4 high risk</p>
+      </div>
+      <div class="header-actions">
+        <button class="btn btn-outline">Export CSV</button>
+        <button class="btn btn-primary">+ Add Control</button>
+      </div>
+    </div>
+
+    <!-- Filter bar -->
+    <div class="card filter-bar mb5">
+      <div class="filter-search">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text-300)"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input placeholder="Search controls, domains, SAMA refs...">
+      </div>
+      <select class="filter-select"><option>All Risk</option><option>High</option><option>Medium</option><option>Low</option></select>
+      <select class="filter-select"><option>All Status</option><option>Missing</option><option>Pending</option><option>In Review</option><option>Approved</option><option>Evidenced</option></select>
+      <select class="filter-select"><option>All Domains</option><option>Identity &amp; Access Mgmt</option><option>Data Protection</option><option>Business Continuity</option></select>
+      <div class="filter-count">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="21" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="21" y1="18" x2="3" y2="18"/></svg>
+        10 results
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="card" style="overflow:hidden;">
+      <table class="data-table">
+        <thead>
+          <tr><th>Control / Domain</th><th>SAMA Ref</th><th>Risk</th><th>Evidence</th><th>Owner</th><th>Deadline</th><th></th></tr>
+        </thead>
+        <tbody>
+          <tr onclick="document.getElementById('sheet').style.display='flex'">
+            <td><div class="td-name">IAM Access Review</div><div class="td-sub">Identity &amp; Access Mgmt</div></td>
+            <td><span class="td-mono">SAMA CCSF 3.1.1</span></td>
+            <td><span class="risk-badge risk-high">High</span></td>
+            <td><span class="status-pill s-missing">Missing</span></td>
+            <td><div class="td-owner"><div class="avatar sm">ZZ</div> Zakie Zabar</div></td>
+            <td><span style="color:var(--risk-high);font-size:11px;font-weight:600;">Overdue</span></td>
+            <td><button class="review-btn">Review →</button></td>
+          </tr>
+          <tr onclick="document.getElementById('sheet').style.display='flex'">
+            <td><div class="td-name">Data Classification Policy</div><div class="td-sub">Data Governance</div></td>
+            <td><span class="td-mono">SAMA CCSF 4.1.2</span></td>
+            <td><span class="risk-badge risk-high">High</span></td>
+            <td><span class="status-pill s-pending">Pending</span></td>
+            <td><div class="td-owner"><div class="avatar sm" style="background:linear-gradient(135deg,#3B82F6,#8B5CF6)">AK</div> Amir Khan</div></td>
+            <td><span style="color:var(--risk-high);font-size:11px;font-weight:600;">May 14</span></td>
+            <td><button class="review-btn">Review →</button></td>
+          </tr>
+          <tr onclick="document.getElementById('sheet').style.display='flex'">
+            <td><div class="td-name">Backup &amp; Recovery Testing</div><div class="td-sub">Business Continuity</div></td>
+            <td><span class="td-mono">SAMA CCSF 7.2.3</span></td>
+            <td><span class="risk-badge risk-high">High</span></td>
+            <td><span class="status-pill s-review">In Review</span></td>
+            <td><div class="td-owner"><div class="avatar sm" style="background:linear-gradient(135deg,#22C55E,#3B82F6)">SA</div> Sara Al-Nasser</div></td>
+            <td><span style="color:var(--risk-med);font-size:11px;font-weight:600;">May 18</span></td>
+            <td><button class="review-btn">Review →</button></td>
+          </tr>
+          <tr onclick="document.getElementById('sheet').style.display='flex'">
+            <td><div class="td-name">Encryption at Rest</div><div class="td-sub">Data Protection</div></td>
+            <td><span class="td-mono">SAMA CCSF 5.3.1</span></td>
+            <td><span class="risk-badge risk-med">Med</span></td>
+            <td><span class="status-pill s-missing">Missing</span></td>
+            <td><div class="td-owner"><div class="avatar sm" style="background:linear-gradient(135deg,#F9A931,#EF4444)">MJ</div> Mohammed J.</div></td>
+            <td><span style="color:var(--risk-med);font-size:11px;">May 22</span></td>
+            <td><button class="review-btn">Review →</button></td>
+          </tr>
+          <tr onclick="document.getElementById('sheet').style.display='flex'">
+            <td><div class="td-name">Vulnerability Management</div><div class="td-sub">Security Operations</div></td>
+            <td><span class="td-mono">SAMA CCSF 6.1.2</span></td>
+            <td><span class="risk-badge risk-high">High</span></td>
+            <td><span class="status-pill s-approved">Approved</span></td>
+            <td><div class="td-owner"><div class="avatar sm" style="background:linear-gradient(135deg,#8B5CF6,#EC4899)">LM</div> Lena M.</div></td>
+            <td><span style="color:var(--text-300);font-size:11px;">Jun 1</span></td>
+            <td><button class="review-btn">Review →</button></td>
+          </tr>
+          <tr onclick="document.getElementById('sheet').style.display='flex'">
+            <td><div class="td-name">Incident Response Plan</div><div class="td-sub">Security Operations</div></td>
+            <td><span class="td-mono">SAMA CCSF 6.3.1</span></td>
+            <td><span class="risk-badge risk-med">Med</span></td>
+            <td><span class="status-pill s-evidenced">Evidenced</span></td>
+            <td><div class="td-owner"><div class="avatar sm" style="background:linear-gradient(135deg,#3B82F6,#22C55E)">KH</div> Khalid H.</div></td>
+            <td><span style="color:var(--text-300);font-size:11px;">Jun 15</span></td>
+            <td><button class="review-btn">Review →</button></td>
+          </tr>
+          <tr onclick="document.getElementById('sheet').style.display='flex'">
+            <td><div class="td-name">Vendor Risk Assessment</div><div class="td-sub">Third Party Risk</div></td>
+            <td><span class="td-mono">SAMA CCSF 8.1.1</span></td>
+            <td><span class="risk-badge risk-med">Med</span></td>
+            <td><span class="status-pill s-pending">Pending</span></td>
+            <td><div class="td-owner"><div class="avatar sm" style="background:linear-gradient(135deg,#EC4899,#F9A931)">RQ</div> Reem Q.</div></td>
+            <td><span style="color:var(--text-300);font-size:11px;">May 30</span></td>
+            <td><button class="review-btn">Review →</button></td>
+          </tr>
+          <tr onclick="document.getElementById('sheet').style.display='flex'">
+            <td><div class="td-name">Change Management Process</div><div class="td-sub">IT Operations</div></td>
+            <td><span class="td-mono">SAMA CCSF 2.2.4</span></td>
+            <td><span class="risk-badge risk-low">Low</span></td>
+            <td><span class="status-pill s-evidenced">Evidenced</span></td>
+            <td><div class="td-owner"><div class="avatar sm" style="background:linear-gradient(135deg,#22C55E,#F9A931)">NA</div> Nadia A.</div></td>
+            <td><span style="color:var(--text-300);font-size:11px;">Jun 30</span></td>
+            <td><button class="review-btn">Review →</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Gap Detail Sheet (click any row to open) -->
+<div id="sheet" class="sheet-overlay" style="display:none;" onclick="if(event.target===this)this.style.display='none'">
+  <div class="sheet">
+    <div class="sheet-header">
+      <div>
+        <div class="sheet-title">IAM Access Review</div>
+        <div class="sheet-meta">Identity &amp; Access Mgmt · SAMA CCSF 3.1.1 · <span class="risk-badge risk-high" style="font-size:9px;">High</span></div>
+      </div>
+      <button class="sheet-close" onclick="document.getElementById('sheet').style.display='none'">✕</button>
+    </div>
+    <div class="sheet-body">
+      <!-- Status row -->
+      <div class="status-row">
+        <div class="status-card"><div class="status-card-label">Evidence</div><div class="status-card-value" style="color:var(--risk-high);">Missing</div></div>
+        <div class="status-card"><div class="status-card-label">Risk</div><div class="status-card-value" style="color:var(--risk-high);">High</div></div>
+        <div class="status-card"><div class="status-card-label">Deadline</div><div class="status-card-value" style="font-size:12px;color:var(--risk-high);">Overdue</div></div>
+        <div class="status-card"><div class="status-card-label">Owner</div><div class="status-card-value" style="font-size:11px;">Zakie Z.</div></div>
+      </div>
+
+      <div class="sheet-section">
+        <div class="sheet-section-title">Description</div>
+        <p style="font-size:12px;color:var(--text-200);line-height:1.6;">Quarterly review of all privileged access accounts in Microsoft Entra ID. Must include certification sign-off from department heads and removal of any orphaned accounts.</p>
+      </div>
+
+      <div class="sheet-section">
+        <div class="sheet-section-title">Evidence Files</div>
+        <div class="evidence-item"><span class="evidence-icon">📄</span><span style="flex:1">IAM_Review_Q1_2026.pdf</span><span class="status-pill s-missing">Missing</span></div>
+        <div class="evidence-item"><span class="evidence-icon">📊</span><span style="flex:1">Access_Cert_SignOff.xlsx</span><span class="status-pill s-missing">Missing</span></div>
+        <button class="btn btn-outline" style="margin-top:10px;width:100%;justify-content:center;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
+          Upload Evidence
+        </button>
+      </div>
+
+      <div class="sheet-section">
+        <div class="sheet-section-title">Activity Timeline</div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div><div class="timeline-text">Control assigned to Zakie Zabar</div><div class="timeline-date">Apr 1, 2026</div></div></div>
+        <div class="timeline-item"><div class="timeline-dot" style="background:var(--risk-high);"></div><div><div class="timeline-text">Deadline passed — evidence not submitted</div><div class="timeline-date">May 1, 2026</div></div></div>
+        <div class="timeline-item"><div class="timeline-dot" style="background:var(--risk-med);"></div><div><div class="timeline-text">Escalation notification sent</div><div class="timeline-date">May 5, 2026</div></div></div>
+      </div>
+    </div>
+    <div class="sheet-actions">
+      <button class="btn btn-validate">✓ Validate</button>
+      <button class="btn btn-reject">✕ Reject</button>
+      <button class="btn btn-export">↓ Export</button>
+    </div>
+  </div>
+</div>
+</body>
+</html>

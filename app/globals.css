@@ -1,0 +1,113 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@200;300;400;500;600&family=Metrophobic&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg-primary: #130E23;
+    --bg-secondary: #181227;
+    --bg-card: rgba(42, 30, 92, 0.35);
+    --bg-card-hover: rgba(42, 30, 92, 0.65);
+    --bg-elevated: #1E1640;
+    --text-primary: #EEEBFB;
+    --text-secondary: #E2DDF5;
+    --text-muted: #9C90CC;
+    --text-dimmed: #4A4070;
+    --border: rgba(255, 255, 255, 0.08);
+    --border-subtle: rgba(255, 255, 255, 0.04);
+    --brand-red: #D8242A;
+    --brand-red-light: #F07378;
+    --brand-purple: #613BFE;
+    --sidebar-width: 240px;
+    --topbar-height: 60px;
+  }
+
+  * {
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+
+  body {
+    @apply bg-dark text-secondary-100 font-sans font-light antialiased;
+    font-size: 14px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+}
+
+@layer components {
+  /* Sidebar nav item */
+  .nav-item {
+    @apply flex items-center gap-2.5 px-2.5 py-2 rounded-sm text-secondary-300 text-[13px] font-normal
+           transition-all duration-200 cursor-pointer relative select-none;
+  }
+  .nav-item:hover {
+    @apply bg-[rgba(42,30,92,0.5)] text-secondary-100;
+  }
+  .nav-item.active {
+    @apply bg-[rgba(97,59,254,0.15)] text-secondary-100 font-medium;
+  }
+  .nav-item.active::before {
+    content: '';
+    @apply absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 bg-primary rounded-r-sm;
+  }
+
+  /* Card base */
+  .audit-card {
+    @apply bg-[rgba(42,30,92,0.35)] border border-[rgba(255,255,255,0.08)] rounded-lg;
+  }
+
+  /* Risk / Status badges */
+  .badge-high {
+    @apply bg-[rgba(239,68,68,0.12)] text-risk-high border border-[rgba(239,68,68,0.25)]
+           text-[10px] font-semibold uppercase tracking-wide px-2 py-0.5 rounded-[4px];
+  }
+  .badge-medium {
+    @apply bg-[rgba(249,169,49,0.12)] text-risk-medium border border-[rgba(249,169,49,0.25)]
+           text-[10px] font-semibold uppercase tracking-wide px-2 py-0.5 rounded-[4px];
+  }
+  .badge-low {
+    @apply bg-[rgba(34,197,94,0.12)] text-risk-low border border-[rgba(34,197,94,0.25)]
+           text-[10px] font-semibold uppercase tracking-wide px-2 py-0.5 rounded-[4px];
+  }
+
+  /* Status pills */
+  .pill-missing  { @apply bg-[rgba(239,68,68,0.1)] text-risk-high border border-[rgba(239,68,68,0.25)] text-[10px] font-semibold px-2 py-0.5 rounded-[4px]; }
+  .pill-pending  { @apply bg-[rgba(249,169,49,0.1)] text-risk-medium border border-[rgba(249,169,49,0.2)] text-[10px] font-semibold px-2 py-0.5 rounded-[4px]; }
+  .pill-review   { @apply bg-[rgba(24,84,232,0.12)] text-[#6B9FFF] border border-[rgba(24,84,232,0.25)] text-[10px] font-semibold px-2 py-0.5 rounded-[4px]; }
+  .pill-approved { @apply bg-[rgba(34,197,94,0.1)] text-risk-low border border-[rgba(34,197,94,0.25)] text-[10px] font-semibold px-2 py-0.5 rounded-[4px]; }
+  .pill-overdue  { @apply bg-[rgba(239,68,68,0.1)] text-risk-high border border-[rgba(239,68,68,0.25)] text-[10px] font-semibold px-2 py-0.5 rounded-[4px]; }
+  .pill-assigned { @apply bg-[rgba(97,59,254,0.12)] text-[#A48DFF] border border-[rgba(97,59,254,0.25)] text-[10px] font-semibold px-2 py-0.5 rounded-[4px]; }
+  .pill-evidenced { @apply bg-[rgba(34,197,94,0.1)] text-risk-low border border-[rgba(34,197,94,0.25)] text-[10px] font-semibold px-2 py-0.5 rounded-[4px]; }
+
+  /* Section label */
+  .section-label {
+    @apply text-[10px] font-semibold tracking-[0.12em] uppercase text-primary;
+  }
+
+  /* Btn styles */
+  .btn-brand {
+    @apply bg-primary hover:bg-primary-300 text-white text-xs font-semibold
+           px-4 py-2 rounded-sm transition-all duration-300 flex items-center gap-1.5;
+  }
+  .btn-outline-brand {
+    @apply border border-[rgba(255,255,255,0.1)] hover:border-[rgba(255,255,255,0.2)]
+           text-secondary-200 hover:text-secondary-100 text-xs font-medium
+           px-4 py-2 rounded-sm transition-all duration-200 flex items-center gap-1.5
+           hover:bg-[rgba(255,255,255,0.04)];
+  }
+}

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SAMA Regulations — Audit Ready Wireframe</title>
+<link rel="stylesheet" href="_shared.css">
+<style>
+/* Pipeline summary cards */
+.pipeline-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-bottom: 20px; }
+.pipeline-card { padding: 20px; border: 1px solid; border-radius: 6px; }
+.pipeline-card.detected { border-color: rgba(239,68,68,.25); background: rgba(239,68,68,.05); }
+.pipeline-card.mapped   { border-color: rgba(249,169,49,.25); background: rgba(249,169,49,.05); }
+.pipeline-card.assigned { border-color: rgba(34,197,94,.25);  background: rgba(34,197,94,.05); }
+.pc-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.pc-icon { width: 16px; height: 16px; }
+.pc-count { font-size: 32px; font-weight: 700; line-height: 1; }
+.pc-label { font-size: 12px; font-weight: 600; margin-bottom: 3px; }
+.pc-desc  { font-size: 11px; color: var(--text-300); }
+
+/* Regulation card */
+.reg-card {
+  background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 6px;
+  border-top: 2px solid; padding: 20px; margin-bottom: 16px;
+}
+.reg-card.detected { border-top-color: var(--risk-high); }
+.reg-card.mapped   { border-top-color: var(--risk-med); }
+.reg-card.assigned { border-top-color: var(--risk-low); }
+.reg-card.is-new   { box-shadow: 0 0 0 1px rgba(97,59,254,.3); }
+.reg-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 14px; }
+.reg-icon-row { display: flex; align-items: flex-start; gap: 12px; flex: 1; }
+.reg-icon { flex-shrink: 0; margin-top: 2px; }
+.reg-badges { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+.reg-date-type { font-size: 10px; color: var(--text-300); }
+.reg-title { font-size: 14px; font-weight: 600; line-height: 1.4; margin-top: 2px; }
+.reg-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.sama-status-badge {
+  font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  padding: 4px 10px; border-radius: 99px; border: 1px solid;
+}
+.same-badge-detected { color: var(--risk-high); border-color: rgba(239,68,68,.3); background: rgba(239,68,68,.08); }
+.same-badge-mapped   { color: var(--risk-med);  border-color: rgba(249,169,49,.3); background: rgba(249,169,49,.08); }
+.same-badge-assigned { color: var(--risk-low);  border-color: rgba(34,197,94,.3);  background: rgba(34,197,94,.08); }
+.portal-link { font-size: 11px; color: var(--primary); display: flex; align-items: center; gap: 4px; cursor: pointer; }
+.reg-desc { font-size: 12px; color: var(--text-300); line-height: 1.65; margin-bottom: 14px; }
+.reg-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 14px; border-top: 1px solid rgba(255,255,255,.04); }
+/* Pipeline bar */
+.pipeline-bar { display: flex; align-items: center; }
+.pb-step {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 4px;
+}
+.pb-step.active-detected { background: rgba(239,68,68,.12); color: var(--risk-high); }
+.pb-step.active-mapped   { background: rgba(249,169,49,.12); color: var(--risk-med); }
+.pb-step.active-assigned { background: rgba(34,197,94,.12);  color: var(--risk-low); }
+.pb-step.inactive { background: rgba(255,255,255,.04); color: var(--text-300); }
+.pb-step .dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+.pb-line { width: 20px; height: 1px; }
+.pb-line.active { background: rgba(255,255,255,.15); }
+.pb-line.inactive { background: rgba(255,255,255,.06); }
+.reg-footer-right { display: flex; align-items: center; gap: 14px; }
+.impact-text { font-size: 11px; font-weight: 600; }
+</style>
+</head>
+<body>
+<!-- Sidebar -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L3 7l9 5 9-5-9-5zM3 17l9 5 9-5M3 12l9 5 9-5"/></svg></div>
+    <div><div class="logo-text">Audit Ready</div><div class="logo-sub">IT Governance</div></div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Overview</div>
+    <a class="nav-item" href="01-dashboard.html"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Dashboard</a>
+    <div class="nav-section-label">Audit Management</div>
+    <a class="nav-item" href="02-controls.html"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Controls &amp; Gaps <span class="nav-badge">12</span></a>
+    <a class="nav-item" href="03-evidence.html"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Evidence Hub</a>
+    <a class="nav-item active" href="04-regulations.html"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/><path d="M12 2v4M12 18v4"/></svg>SAMA Regulations <span class="nav-badge">3</span></a>
+    <div class="nav-section-label">Workflow</div>
+    <a class="nav-item" href="05-governance.html"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Governance</a>
+    <a class="nav-item" href="#"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/></svg>Notifications <span class="nav-badge">5</span></a>
+  </nav>
+  <div class="sidebar-user"><button class="user-btn"><div class="avatar">ZZ</div><div><div class="user-name">Zakie Zabar</div><div class="user-role">IT Governance Lead</div></div></button></div>
+</aside>
+
+<div class="main-area">
+  <header class="topbar">
+    <div class="breadcrumb">Audit Ready <span style="opacity:.3">›</span> <span class="current">SAMA Regulations</span></div>
+    <div class="topbar-right">
+      <div class="live-indicator"><span class="pulse"></span> SAMA Sync Active</div>
+      <div class="divider"></div>
+      <div class="search-bar"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Search...</div>
+      <button class="icon-btn notification-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/></svg></button>
+      <div class="divider"></div>
+      <div class="avatar topbar-avatar">ZZ</div>
+    </div>
+  </header>
+
+  <div class="page-content">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">SAMA Regulatory Feed</h1>
+        <p class="page-sub">6 regulatory updates · 2 requiring immediate action</p>
+      </div>
+      <div class="header-actions">
+        <div style="display:flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:var(--risk-low);padding:6px 12px;border-radius:99px;border:1px solid rgba(34,197,94,.25);background:rgba(34,197,94,.08);">
+          <span class="pulse"></span> Live Feed Active
+        </div>
+        <button class="btn btn-outline">Subscribe to Alerts</button>
+      </div>
+    </div>
+
+    <!-- Pipeline summary -->
+    <div class="pipeline-grid">
+      <div class="pipeline-card detected">
+        <div class="pc-header">
+          <svg class="pc-icon" viewBox="0 0 24 24" fill="none" stroke="var(--risk-high)" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <span class="pc-count" style="color:var(--risk-high);">2</span>
+        </div>
+        <div class="pc-label">Detected</div>
+        <div class="pc-desc">Awaiting mapping to controls</div>
+      </div>
+      <div class="pipeline-card mapped">
+        <div class="pc-header">
+          <svg class="pc-icon" viewBox="0 0 24 24" fill="none" stroke="var(--risk-med)" stroke-width="2"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+          <span class="pc-count" style="color:var(--risk-med);">2</span>
+        </div>
+        <div class="pc-label">Mapped</div>
+        <div class="pc-desc">Controls identified, assigning owners</div>
+      </div>
+      <div class="pipeline-card assigned">
+        <div class="pc-header">
+          <svg class="pc-icon" viewBox="0 0 24 24" fill="none" stroke="var(--risk-low)" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          <span class="pc-count" style="color:var(--risk-low);">2</span>
+        </div>
+        <div class="pc-label">Assigned</div>
+        <div class="pc-desc">Owners notified, evidence in progress</div>
+      </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="flex flex-center gap-3 mb5">
+      <div style="flex:1;display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:4px;padding:7px 12px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text-300)"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input placeholder="Search regulations, circular types..." style="background:none;border:none;outline:none;font-size:12px;color:var(--text-100);flex:1;">
+      </div>
+      <select class="filter-select"><option>All Statuses</option><option>Detected</option><option>Mapped</option><option>Assigned</option></select>
+      <span style="font-size:11px;color:var(--text-300);">6 updates</span>
+    </div>
+
+    <!-- Regulation cards -->
+
+    <!-- Card 1: Detected + New -->
+    <div class="reg-card detected is-new">
+      <div class="reg-top">
+        <div class="reg-icon-row">
+          <svg class="reg-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--risk-high)" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <div>
+            <div class="reg-badges">
+              <span class="tag-new">⚡ New</span>
+              <span class="reg-date-type">May 2, 2026 · New Directive</span>
+            </div>
+            <div class="reg-title">Cloud Hosting Requirements for Financial Data Processing</div>
+          </div>
+        </div>
+        <div class="reg-actions">
+          <span class="sama-status-badge same-badge-detected">Detected</span>
+          <span class="portal-link">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            SAMA Portal
+          </span>
+        </div>
+      </div>
+      <p class="reg-desc">Financial institutions must ensure all cloud-hosted financial data is processed within SAMA-approved data centres. Hybrid cloud solutions require additional approval. Institutions have 180 days to demonstrate compliance through documented evidence.</p>
+      <div class="reg-footer">
+        <div class="pipeline-bar">
+          <div class="pb-step active-detected"><span class="dot"></span>Detected</div>
+          <div class="pb-line active"></div>
+          <div class="pb-step inactive">Mapped</div>
+          <div class="pb-line inactive"></div>
+          <div class="pb-step inactive">Assigned</div>
+          <div class="pb-line inactive"></div>
+          <div class="pb-step inactive">Validated</div>
+        </div>
+        <div class="reg-footer-right">
+          <span class="impact-text" style="color:var(--risk-high);">⚠ 8 controls impacted</span>
+          <button class="btn btn-outline" style="font-size:11px;padding:4px 12px;">Map Controls</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2: Detected + New -->
+    <div class="reg-card detected is-new">
+      <div class="reg-top">
+        <div class="reg-icon-row">
+          <svg class="reg-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--risk-high)" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+          <div>
+            <div class="reg-badges"><span class="tag-new">⚡ New</span><span class="reg-date-type">Apr 28, 2026 · Cybersecurity Framework</span></div>
+            <div class="reg-title">Enhanced Endpoint Detection &amp; Response Requirements</div>
+          </div>
+        </div>
+        <div class="reg-actions">
+          <span class="sama-status-badge same-badge-detected">Detected</span>
+          <span class="portal-link"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>SAMA Portal</span>
+        </div>
+      </div>
+      <p class="reg-desc">All financial institutions must deploy SAMA-certified EDR solutions across all endpoints by Q3 2026. Monthly threat reports must be submitted to SAMA's cybersecurity division. Existing antivirus solutions are no longer sufficient for compliance.</p>
+      <div class="reg-footer">
+        <div class="pipeline-bar">
+          <div class="pb-step active-detected"><span class="dot"></span>Detected</div>
+          <div class="pb-line active"></div>
+          <div class="pb-step inactive">Mapped</div>
+          <div class="pb-line inactive"></div>
+          <div class="pb-step inactive">Assigned</div>
+          <div class="pb-line inactive"></div>
+          <div class="pb-step inactive">Validated</div>
+        </div>
+        <div class="reg-footer-right">
+          <span class="impact-text" style="color:var(--risk-high);">⚠ 5 controls impacted</span>
+          <button class="btn btn-outline" style="font-size:11px;padding:4px 12px;">Map Controls</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3: Mapped -->
+    <div class="reg-card mapped">
+      <div class="reg-top">
+        <div class="reg-icon-row">
+          <svg class="reg-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--risk-med)" stroke-width="2"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+          <div>
+            <div class="reg-badges"><span class="reg-date-type">Apr 20, 2026 · Framework Update · CCSF</span></div>
+            <div class="reg-title">Third-Party Risk Assessment Frequency Increase</div>
+          </div>
+        </div>
+        <div class="reg-actions">
+          <span class="sama-status-badge same-badge-mapped">Mapped</span>
+          <span class="portal-link"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/></svg>SAMA Portal</span>
+        </div>
+      </div>
+      <p class="reg-desc">Vendor risk assessments must now be conducted bi-annually instead of annually. Critical vendors (Tier 1) require quarterly assessments. Updated questionnaires and on-site audit requirements included in the circular annex.</p>
+      <div class="reg-footer">
+        <div class="pipeline-bar">
+          <div class="pb-step active-detected"><span class="dot"></span>Detected</div>
+          <div class="pb-line active"></div>
+          <div class="pb-step active-mapped"><span class="dot"></span>Mapped</div>
+          <div class="pb-line inactive"></div>
+          <div class="pb-step inactive">Assigned</div>
+          <div class="pb-line inactive"></div>
+          <div class="pb-step inactive">Validated</div>
+        </div>
+        <div class="reg-footer-right">
+          <span class="impact-text" style="color:var(--risk-med);">◆ 6 controls mapped</span>
+          <button class="btn btn-outline" style="font-size:11px;padding:4px 12px;">Assign Owners</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 4: Assigned -->
+    <div class="reg-card assigned">
+      <div class="reg-top">
+        <div class="reg-icon-row">
+          <svg class="reg-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--risk-low)" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          <div>
+            <div class="reg-badges"><span class="reg-date-type">Apr 10, 2026 · Circular · Cybersecurity</span></div>
+            <div class="reg-title">Multi-Factor Authentication Mandate for Critical Systems</div>
+          </div>
+        </div>
+        <div class="reg-actions">
+          <span class="sama-status-badge same-badge-assigned">Assigned</span>
+          <span class="portal-link"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/></svg>SAMA Portal</span>
+        </div>
+      </div>
+      <p class="reg-desc">All privileged accounts and customer-facing portals must enforce MFA by June 30, 2026. Hardware tokens accepted for privileged accounts; TOTP or push notifications acceptable for customer portals. Exceptions require SAMA approval.</p>
+      <div class="reg-footer">
+        <div class="pipeline-bar">
+          <div class="pb-step active-detected"><span class="dot"></span>Detected</div>
+          <div class="pb-line active"></div>
+          <div class="pb-step active-mapped"><span class="dot"></span>Mapped</div>
+          <div class="pb-line active"></div>
+          <div class="pb-step active-assigned"><span class="dot"></span>Assigned</div>
+          <div class="pb-line inactive"></div>
+          <div class="pb-step inactive">Validated</div>
+        </div>
+        <div class="reg-footer-right">
+          <span class="impact-text" style="color:var(--risk-low);">✓ 4 controls assigned</span>
+          <button class="btn btn-outline" style="font-size:11px;padding:4px 12px;">View Progress</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

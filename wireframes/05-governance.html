@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Governance — Audit Ready Wireframe</title>
+<link rel="stylesheet" href="_shared.css">
+<style>
+/* Tab nav */
+.tab-nav {
+  display: flex; border-bottom: 1px solid rgba(255,255,255,.06); margin-bottom: 24px;
+}
+.tab-btn {
+  display: flex; align-items: center; gap: 8px;
+  padding: 12px 20px; font-size: 12px; font-weight: 500;
+  border: none; border-bottom: 2px solid transparent; background: none;
+  color: var(--text-300); cursor: pointer; transition: all .15s;
+}
+.tab-btn:hover { color: var(--text-100); }
+.tab-btn.active { border-bottom-color: var(--primary); color: var(--text-100); }
+.tab-btn svg { width: 13px; height: 13px; }
+.tab-badge { width: 16px; height: 16px; border-radius: 50%; background: var(--primary); color: #fff; font-size: 9px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+
+/* Kanban Board */
+.kanban { display: grid; grid-template-columns: repeat(5,1fr); gap: 12px; }
+.kanban-col { display: flex; flex-direction: column; gap: 8px; }
+.kanban-col-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 8px 12px; border-radius: 4px;
+  background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.06);
+}
+.kanban-col-label { font-size: 11px; font-weight: 700; }
+.kanban-col-count { font-size: 18px; font-weight: 700; line-height: 1; }
+.kanban-card {
+  padding: 12px; border-radius: 4px; border: 1px solid rgba(255,255,255,.06);
+  cursor: pointer; transition: all .15s;
+}
+.kanban-card:hover { filter: brightness(1.12); }
+/* card skeletons */
+.skeleton-line { height: 8px; border-radius: 99px; background: rgba(255,255,255,.08); margin-bottom: 6px; }
+.skeleton-sm   { height: 6px; border-radius: 99px; background: rgba(255,255,255,.05); margin-bottom: 4px; }
+.kanban-card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
+.avatar-circle { width: 16px; height: 16px; border-radius: 50%; background: rgba(255,255,255,.1); }
+.due-tag { font-size: 9px; color: var(--text-300); }
+.more-btn { font-size: 10px; color: var(--text-300); text-align: center; padding: 4px; cursor: pointer; }
+.more-btn:hover { color: var(--text-100); }
+
+/* Col colors */
+.col-assigned .kanban-col-label { color: var(--text-200); }
+.col-assigned .kanban-col-count { color: var(--text-200); }
+.col-assigned .kanban-card  { background: rgba(255,255,255,.04); }
+.col-review   .kanban-col-label { color: var(--blue); }
+.col-review   .kanban-col-count { color: var(--blue); }
+.col-review   .kanban-card  { background: rgba(24,84,232,.12); }
+.col-approved .kanban-col-label { color: var(--secondary); }
+.col-approved .kanban-col-count { color: var(--secondary); }
+.col-approved .kanban-card  { background: rgba(97,59,254,.12); }
+.col-evidenced .kanban-col-label { color: var(--risk-low); }
+.col-evidenced .kanban-col-count { color: var(--risk-low); }
+.col-evidenced .kanban-card { background: rgba(34,197,94,.08); }
+.col-overdue  .kanban-col-label { color: var(--risk-high); }
+.col-overdue  .kanban-col-count { color: var(--risk-high); }
+.col-overdue  .kanban-card  { background: rgba(239,68,68,.08); }
+
+/* Tasks tab */
+.tasks-list-header { display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; border-bottom: 1px solid rgba(255,255,255,.04); }
+.tasks-list-title  { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--text-300); }
+.task-list-row {
+  display: flex; align-items: center; gap: 12px; padding: 14px 20px;
+  border-bottom: 1px solid rgba(255,255,255,.04); cursor: pointer; transition: background .15s;
+}
+.task-list-row:last-child { border-bottom: none; }
+.task-list-row:hover { background: rgba(42,30,92,.5); }
+.task-list-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.task-list-content { flex: 1; min-width: 0; }
+.task-list-title  { font-size: 12px; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.task-list-meta   { font-size: 10px; color: var(--text-300); margin-top: 2px; }
+.task-list-due    { font-size: 10px; font-weight: 600; flex-shrink: 0; }
+.chevron-btn { width: 28px; height: 28px; border-radius: 4px; border: 1px solid rgba(255,255,255,.08); background: none; display: flex; align-items: center; justify-content: center; color: var(--text-300); cursor: pointer; flex-shrink: 0; }
+.chevron-btn:hover { border-color: var(--primary); color: var(--primary); }
+
+/* Approval Queue */
+.approval-row {
+  display: flex; align-items: center; gap: 14px; padding: 14px 20px;
+  border-bottom: 1px solid rgba(255,255,255,.04);
+}
+.approval-row:last-child { border-bottom: none; }
+.approval-content { flex: 1; min-width: 0; }
+.approval-title { font-size: 12px; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.approval-meta  { font-size: 10px; color: var(--text-300); margin-top: 2px; }
+.approval-actions { display: flex; gap: 6px; }
+.btn-approve {
+  display: flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 500;
+  color: var(--risk-low); border: 1px solid rgba(34,197,94,.25); background: rgba(34,197,94,.08);
+  padding: 5px 12px; border-radius: 4px; cursor: pointer; transition: all .15s;
+}
+.btn-approve:hover { background: rgba(34,197,94,.15); }
+.btn-reject {
+  display: flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 500;
+  color: var(--risk-high); border: 1px solid rgba(239,68,68,.25); background: rgba(239,68,68,.06);
+  padding: 5px 12px; border-radius: 4px; cursor: pointer; transition: all .15s;
+}
+.btn-reject:hover { background: rgba(239,68,68,.12); }
+.btn-view-detail {
+  display: flex; align-items: center; gap: 4px; font-size: 10px; font-weight: 500;
+  color: var(--text-300); border: 1px solid rgba(255,255,255,.08); background: none;
+  padding: 5px 10px; border-radius: 4px; cursor: pointer; transition: all .15s;
+}
+.btn-view-detail:hover { border-color: var(--primary); color: var(--primary); }
+</style>
+</head>
+<body>
+<!-- Sidebar -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L3 7l9 5 9-5-9-5zM3 17l9 5 9-5M3 12l9 5 9-5"/></svg></div>
+    <div><div class="logo-text">Audit Ready</div><div class="logo-sub">IT Governance</div></div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Overview</div>
+    <a class="nav-item" href="01-dashboard.html"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Dashboard</a>
+    <div class="nav-section-label">Audit Management</div>
+    <a class="nav-item" href="02-controls.html"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Controls &amp; Gaps <span class="nav-badge">12</span></a>
+    <a class="nav-item" href="03-evidence.html"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Evidence Hub</a>
+    <a class="nav-item" href="04-regulations.html"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/><path d="M12 2v4M12 18v4"/></svg>SAMA Regulations <span class="nav-badge">3</span></a>
+    <div class="nav-section-label">Workflow</div>
+    <a class="nav-item active" href="05-governance.html"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Governance</a>
+    <a class="nav-item" href="#"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/></svg>Notifications <span class="nav-badge">5</span></a>
+  </nav>
+  <div class="sidebar-user"><button class="user-btn"><div class="avatar">ZZ</div><div><div class="user-name">Zakie Zabar</div><div class="user-role">IT Governance Lead</div></div></button></div>
+</aside>
+
+<div class="main-area">
+  <header class="topbar">
+    <div class="breadcrumb">Audit Ready <span style="opacity:.3">›</span> <span class="current">Governance</span></div>
+    <div class="topbar-right">
+      <div class="live-indicator"><span class="pulse"></span> SAMA Sync Active</div>
+      <div class="divider"></div>
+      <div class="search-bar"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Search...</div>
+      <button class="icon-btn notification-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/></svg></button>
+      <div class="divider"></div>
+      <div class="avatar topbar-avatar">ZZ</div>
+    </div>
+  </header>
+
+  <div class="page-content">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Governance &amp; Workflow</h1>
+        <p class="page-sub">79 total controls · 6 overdue · 34 evidenced</p>
+      </div>
+      <div class="header-actions">
+        <button class="btn btn-outline">Bulk Assign</button>
+        <button class="btn btn-primary">+ Assign Owner</button>
+      </div>
+    </div>
+
+    <!-- Tab nav — controlled by JS -->
+    <div class="tab-nav">
+      <button class="tab-btn active" id="tab-board" onclick="showTab('board')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="5" height="18"/><rect x="10" y="3" width="5" height="18"/><rect x="17" y="3" width="4" height="18"/></svg>
+        Workflow Board
+      </button>
+      <button class="tab-btn" id="tab-tasks" onclick="showTab('tasks')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        My Tasks
+      </button>
+      <button class="tab-btn" id="tab-approvals" onclick="showTab('approvals')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+        Approval Queue
+        <span class="tab-badge">3</span>
+      </button>
+    </div>
+
+    <!-- Workflow Board -->
+    <div id="panel-board">
+      <div class="kanban">
+        <!-- Assigned -->
+        <div class="kanban-col col-assigned">
+          <div class="kanban-col-header">
+            <span class="kanban-col-label">Assigned</span>
+            <span class="kanban-col-count">18</span>
+          </div>
+          <div class="kanban-card">
+            <div class="skeleton-line" style="width:85%"></div>
+            <div class="skeleton-sm" style="width:60%"></div>
+            <div class="kanban-card-footer"><div class="avatar-circle"></div><span class="due-tag">Due soon</span></div>
+          </div>
+          <div class="kanban-card">
+            <div class="skeleton-line" style="width:70%"></div>
+            <div class="skeleton-sm" style="width:75%"></div>
+            <div class="kanban-card-footer"><div class="avatar-circle"></div><span class="due-tag">Due soon</span></div>
+          </div>
+          <div class="kanban-card">
+            <div class="skeleton-line" style="width:90%"></div>
+            <div class="skeleton-sm" style="width:50%"></div>
+            <div class="kanban-card-footer"><div class="avatar-circle"></div><span class="due-tag">Due soon</span></div>
+          </div>
+          <div class="more-btn">+15 more</div>
+        </div>
+
+        <!-- In Review -->
+        <div class="kanban-col col-review">
+          <div class="kanban-col-header">
+            <span class="kanban-col-label">In Review</span>
+            <span class="kanban-col-count">13</span>
+          </div>
+          <div class="kanban-card">
+            <div class="skeleton-line" style="width:75%"></div>
+            <div class="skeleton-sm" style="width:55%"></div>
+            <div class="kanban-card-footer"><div class="avatar-circle"></div><span class="due-tag">Due soon</span></div>
+          </div>
+          <div class="kanban-card">
+            <div class="skeleton-line" style="width:80%"></div>
+            <div class="skeleton-sm" style="width:65%"></div>
+            <div class="kanban-card-footer"><div class="avatar-circle"></div><span class="due-tag">Due soon</span></div>
+          </div>
+          <div class="kanban-card">
+            <div class="skeleton-line" style="width:60%"></div>
+            <div class="skeleton-sm" style="width:80%"></div>
+            <div class="kanban-card-footer"><div class="avatar-circle"></div><span class="due-tag">Due soon</span></div>
+          </div>
+          <div class="more-btn">+10 more</div>
+        </div>
+
+        <!-- Approved -->
+        <div class="kanban-col col-approved">
+          <div class="kanban-col-header">
+            <span class="kanban-col-label">Approved</span>
+            <span class="kanban-col-count">8</span>
+          </div>
+          <div class="kanban-card">
+            <div class="skeleton-line" style="width:80%"></div>
+            <div class="skeleton-sm" style="width:50%"></div>
+            <div class="kanban-card-footer"><div class="avatar-circle"></div><span class="due-tag">Due soon</span></div>
+          </div>
+          <div class="kanban-card">
+            <div class="skeleton-line" style="width:65%"></div>
+            <div class="skeleton-sm" style="width:70%"></div>
+            <div class="kanban-card-footer"><div class="avatar-circle"></div><span class="due-tag">Due soon</span></div>
+          </div>
+          <div class="kanban-card">
+            <div class="skeleton-line" style="width:90%"></div>
+            <div class="skeleton-sm" style="width:45%"></div>
+            <div class="kanban-card-footer"><div class="avatar-circle"></div><span class="due-tag">Due soon</span></div>
+          </div>
+          <div class="more-btn">+5 more</div>
+        </div>
+
+        <!-- Evidenced -->
+        <div class="kanban-col col-evidenced">
+          <div class="kanban-col-header">
+            <span class="kanban-col-label">Evidenced</span>
+            <span class="kanban-col-count">34</span>
+          </div>
+          <div class="kanban-card">
+            <div class="skeleton-line" style="width:70%"></div>
+            <div class="skeleton-sm" style="width:85%"></div>
+            <div class="kanban-card-footer"><div class="avatar-circle"></div><span class="due-tag">Done</span></div>
+          </div>
+          <div class="kanban-card">
+            <div class="skeleton-line" style="width:85%"></div>
+            <div class="skeleton-sm" style="width:60%"></div>
+            <div class="kanban-card-footer"><div class="avatar-circle"></div><span class="due-tag">Done</span></div>
+          </div>
+          <div class="kanban-card">
+            <div class="skeleton-line" style="width:75%"></div>
+            <div class="skeleton-sm" style="width:70%"></div>
+            <div class="kanban-card-footer"><div class="avatar-circle"></div><span class="due-tag">Done</span></div>
+          </div>
+          <div class="more-btn">+31 more</div>
+        </div>
+
+        <!-- Overdue -->
+        <div class="kanban-col col-overdue">
+          <div class="kanban-col-header">
+            <span class="kanban-col-label">Overdue</span>
+            <span class="kanban-col-count">6</span>
+          </div>
+          <div class="kanban-card">
+            <div class="skeleton-line" style="width:80%"></div>
+            <div class="skeleton-sm" style="width:55%"></div>
+            <div class="kanban-card-footer"><div class="avatar-circle"></div><span class="due-tag" style="color:var(--risk-high)">Overdue</span></div>
+          </div>
+          <div class="kanban-card">
+            <div class="skeleton-line" style="width:65%"></div>
+            <div class="skeleton-sm" style="width:75%"></div>
+            <div class="kanban-card-footer"><div class="avatar-circle"></div><span class="due-tag" style="color:var(--risk-high)">Overdue</span></div>
+          </div>
+          <div class="kanban-card">
+            <div class="skeleton-line" style="width:90%"></div>
+            <div class="skeleton-sm" style="width:40%"></div>
+            <div class="kanban-card-footer"><div class="avatar-circle"></div><span class="due-tag" style="color:var(--risk-high)">Overdue</span></div>
+          </div>
+          <div class="more-btn">+3 more</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- My Tasks tab -->
+    <div id="panel-tasks" style="display:none;">
+      <div class="card" style="overflow:hidden;">
+        <div class="tasks-list-header">
+          <span class="tasks-list-title">Assigned to Me</span>
+          <span style="font-size:11px;color:var(--text-300);">4 tasks</span>
+        </div>
+        <div class="task-list-row">
+          <div class="task-list-dot" style="background:var(--risk-high);"></div>
+          <div class="task-list-content">
+            <div class="task-list-title">Submit IAM Access Review Evidence</div>
+            <div class="task-list-meta">Controls · SAMA CCSF 3.1.1</div>
+          </div>
+          <span class="risk-badge risk-high" style="font-size:9px;">High</span>
+          <span class="task-list-due" style="color:var(--risk-high);">Overdue</span>
+          <button class="chevron-btn"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
+        </div>
+        <div class="task-list-row">
+          <div class="task-list-dot" style="background:var(--risk-high);"></div>
+          <div class="task-list-content">
+            <div class="task-list-title">Review Data Classification Policy</div>
+            <div class="task-list-meta">Governance · Approval needed</div>
+          </div>
+          <span class="risk-badge risk-high" style="font-size:9px;">High</span>
+          <span class="task-list-due" style="color:var(--risk-high);">May 14</span>
+          <button class="chevron-btn"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
+        </div>
+        <div class="task-list-row">
+          <div class="task-list-dot" style="background:var(--risk-med);"></div>
+          <div class="task-list-content">
+            <div class="task-list-title">Upload Backup Verification Logs</div>
+            <div class="task-list-meta">Evidence Hub · Pending upload</div>
+          </div>
+          <span class="risk-badge risk-med" style="font-size:9px;">Med</span>
+          <span class="task-list-due" style="color:var(--risk-med);">May 18</span>
+          <button class="chevron-btn"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
+        </div>
+        <div class="task-list-row">
+          <div class="task-list-dot" style="background:var(--risk-low);"></div>
+          <div class="task-list-content">
+            <div class="task-list-title">Map SAMA Circular 2024-08 Controls</div>
+            <div class="task-list-meta">Regulations · New directive</div>
+          </div>
+          <span class="risk-badge risk-low" style="font-size:9px;">Low</span>
+          <span class="task-list-due" style="color:var(--text-300);">May 25</span>
+          <button class="chevron-btn"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Approval Queue tab -->
+    <div id="panel-approvals" style="display:none;">
+      <div class="card" style="overflow:hidden;">
+        <div class="tasks-list-header">
+          <span class="tasks-list-title">Pending Approvals</span>
+          <span style="font-size:11px;color:var(--text-300);">3 items</span>
+        </div>
+        <div class="approval-row">
+          <div class="task-list-dot" style="background:var(--risk-high);width:8px;height:8px;border-radius:50%;flex-shrink:0;"></div>
+          <div class="approval-content">
+            <div class="approval-title">Backup &amp; Recovery Test Report — Q1 2026</div>
+            <div class="approval-meta">Submitted by Sara Al-Nasser · Evidence Hub · May 6, 2026</div>
+          </div>
+          <span class="risk-badge risk-high" style="font-size:9px;">High</span>
+          <div class="approval-actions">
+            <button class="btn-approve">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z"/></svg>
+              Approve
+            </button>
+            <button class="btn-reject">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3z"/></svg>
+              Reject
+            </button>
+            <button class="btn-view-detail">View <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
+          </div>
+        </div>
+        <div class="approval-row">
+          <div class="task-list-dot" style="background:var(--risk-med);width:8px;height:8px;border-radius:50%;flex-shrink:0;"></div>
+          <div class="approval-content">
+            <div class="approval-title">Network Vulnerability Scan — May 2026</div>
+            <div class="approval-meta">Submitted by Lena M. · Evidence Hub · May 3, 2026</div>
+          </div>
+          <span class="risk-badge risk-med" style="font-size:9px;">Med</span>
+          <div class="approval-actions">
+            <button class="btn-approve"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z"/></svg>Approve</button>
+            <button class="btn-reject"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3z"/></svg>Reject</button>
+            <button class="btn-view-detail">View <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
+          </div>
+        </div>
+        <div class="approval-row">
+          <div class="task-list-dot" style="background:var(--risk-low);width:8px;height:8px;border-radius:50%;flex-shrink:0;"></div>
+          <div class="approval-content">
+            <div class="approval-title">Incident Response Plan v3.2 — Updated</div>
+            <div class="approval-meta">Submitted by Khalid H. · Governance · Apr 30, 2026</div>
+          </div>
+          <span class="risk-badge risk-low" style="font-size:9px;">Low</span>
+          <div class="approval-actions">
+            <button class="btn-approve"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z"/></svg>Approve</button>
+            <button class="btn-reject"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3z"/></svg>Reject</button>
+            <button class="btn-view-detail">View <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showTab(tab) {
+  ['board','tasks','approvals'].forEach(t => {
+    document.getElementById('panel-' + t).style.display = t === tab ? '' : 'none';
+    document.getElementById('tab-' + t).classList.toggle('active', t === tab);
+  });
+}
+</script>
+</body>
+</html>
