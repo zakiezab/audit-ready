@@ -55,7 +55,7 @@ export function AssignOwnerModal({ open, onOpenChange }: AssignOwnerModalProps) 
     setSelectedControls((prev) => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
 
   const handleAssign = () => {
-    if (!selectedOwner || (mode === "bulk" && selectedControls.size === 0)) return;
+    if (!selectedOwner || selectedControls.size === 0) return;
     setDone(true);
     setTimeout(() => { onOpenChange(false); setDone(false); setSelectedControls(new Set()); setSelectedOwner(null); setSearch(""); }, 1200);
   };

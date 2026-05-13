@@ -28,7 +28,7 @@ export default function ControlsPage() {
       !search ||
       c.name.toLowerCase().includes(search.toLowerCase()) ||
       c.domain.toLowerCase().includes(search.toLowerCase()) ||
-      c.samaRef.toLowerCase().includes(search.toLowerCase());
+      (c.samaRef ?? "").toLowerCase().includes(search.toLowerCase());
     const matchRisk = riskFilter === "all" || c.risk === riskFilter;
     const matchStatus = statusFilter === "all" || c.evidenceStatus === statusFilter;
     const matchDomain = domainFilter === "all" || c.domain === domainFilter;
@@ -51,9 +51,8 @@ export default function ControlsPage() {
     { key: "all", label: "All Status" },
     { key: "missing", label: "Missing" },
     { key: "pending", label: "Pending" },
-    { key: "in-review", label: "In Review" },
+    { key: "review", label: "In Review" },
     { key: "approved", label: "Approved" },
-    { key: "evidenced", label: "Evidenced" },
   ];
 
   return (
