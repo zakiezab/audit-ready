@@ -101,6 +101,15 @@ export interface Notification {
   meta?: string;
 }
 
+export interface BoardItemDocument {
+  name: string;
+  type: string;
+  size: string;
+  date: string;
+  status: "approved" | "pending" | "review" | "missing";
+  uploadedBy: string;
+}
+
 export interface BoardItem {
   id: string;
   name: string;
@@ -111,4 +120,7 @@ export interface BoardItem {
   deadlineStatus: "overdue" | "soon" | "ok";
   workflowStatus: WorkflowStatus;
   samaRef?: string;
+  description?: string;
+  requirements?: string[];
+  documents?: BoardItemDocument[];
 }

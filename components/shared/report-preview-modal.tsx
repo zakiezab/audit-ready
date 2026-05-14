@@ -447,17 +447,47 @@ function getDocumentHTML(reportType: ReportId): string {
 }
 
 // ── Modal component ───────────────────────────────────────────────
+const REPORT_FILENAMES: Record<ReportId, string> = {
+  "full-audit":          "Full_Audit_Package_Q2_2026",
+  "sama-compliance":     "SAMA_Compliance_Report_Q2_2026",
+  "gap-analysis":        "Gap_Analysis_Report_Q2_2026",
+  "evidence-inventory":  "Evidence_Inventory_Q2_2026",
+  "ownership-summary":   "Ownership_Summary_Q2_2026",
+};
+
 export function ReportPreviewModal({ open, onOpenChange, reportType }: ReportPreviewModalProps) {
   const iframeRef = useRef<HTMLIFrameElement>(null);
+
+  const getFullHTML = (type: ReportId) =>
+    `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${REPORT_FILENAMES[type]}</title><style>${DOC_STYLES}@media print{*{-webkit-print-color-adjust:exact;print-color-adjust:exact;}.page{page-break-after:always;page-break-inside:avoid;}}</style></head><body>${getDocumentHTML(type)}</body></html>`;
 
   useEffect(() => {
     if (!open || !iframeRef.current) return;
     const doc = iframeRef.current.contentDocument;
     if (!doc) return;
     doc.open();
-    doc.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><style>${DOC_STYLES}</style></head><body>${getDocumentHTML(reportType)}</body></html>`);
+    doc.write(getFullHTML(reportType));
     doc.close();
   }, [open, reportType]);
+
+  const handlePrint = () => {
+    iframeRef.current?.contentWindow?.print();
+  };
+
+  const handleDownloadPDF = () => {
+    const html = getFullHTML(reportType);
+    const blob = new Blob([html], { type: "text/html" });
+    const url = URL.createObjectURL(blob);
+    const win = window.open(url, "_blank");
+    if (win) {
+      win.addEventListener("load", () => {
+        setTimeout(() => {
+          win.print();
+          URL.revokeObjectURL(url);
+        }, 300);
+      });
+    }
+  };
 
   if (!open) return null;
 
@@ -489,10 +519,16 @@ export function ReportPreviewModal({ open, onOpenChange, reportType }: ReportPre
           </div>
 
           <div className="flex items-center gap-2">
-            <button className="flex items-center gap-1.5 text-[11px] text-secondary-300 border border-[rgba(255,255,255,0.08)] rounded-sm px-3 py-1.5 hover:border-secondary hover:text-secondary transition-all">
+            <button
+              onClick={handlePrint}
+              className="flex items-center gap-1.5 text-[11px] text-secondary-300 border border-[rgba(255,255,255,0.08)] rounded-sm px-3 py-1.5 hover:border-secondary hover:text-secondary transition-all"
+            >
               <Printer size={12} /> Print
             </button>
-            <button className="flex items-center gap-1.5 text-[11px] font-medium btn-brand px-3 py-1.5">
+            <button
+              onClick={handleDownloadPDF}
+              className="flex items-center gap-1.5 text-[11px] font-medium btn-brand px-3 py-1.5"
+            >
               <Download size={12} /> Download PDF
             </button>
             <button

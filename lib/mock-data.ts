@@ -381,6 +381,18 @@ export const boardItems: BoardItem[] = [
     deadlineStatus: "overdue",
     workflowStatus: "overdue",
     samaRef: "CCSF 4.2.1",
+    description: "Periodic review of all IAM policies and user access rights across core banking systems. Enforces least-privilege principles and removes stale permissions. Required under SAMA CCSF 4.2.1 — currently 44 days overdue and blocking two downstream controls.",
+    requirements: [
+      "Review all active user accounts and permission levels",
+      "Remove stale, orphaned, and excessive access rights",
+      "Validate service account privileges against principle of least privilege",
+      "Generate signed access certification report for auditors",
+    ],
+    documents: [
+      { name: "IAM_Policy_Review_Q1_2026.pdf", type: "PDF", size: "2.4 MB", date: "Apr 12, 2026", status: "review", uploadedBy: "IT Security" },
+      { name: "Access_Rights_Matrix_v2.xlsx", type: "XLSX", size: "1.1 MB", date: "Apr 10, 2026", status: "pending", uploadedBy: "IT Security" },
+      { name: "Azure_AD_User_Export.csv", type: "CSV", size: "340 KB", date: "Apr 12, 2026", status: "pending", uploadedBy: "IT Security" },
+    ],
   },
   {
     id: "b-ov-2",
@@ -392,6 +404,18 @@ export const boardItems: BoardItem[] = [
     deadlineStatus: "overdue",
     workflowStatus: "overdue",
     samaRef: "CCSF 4.1",
+    description: "Validation that all system and user accounts comply with the bank's enforced password policy. Includes minimum complexity rules, 90-day rotation enforcement, and MFA activation verification. Now 29 days overdue.",
+    requirements: [
+      "Verify minimum 12-character password requirement is enforced",
+      "Confirm 90-day password rotation policy is active on all accounts",
+      "Validate MFA activation across all privileged and external-access accounts",
+      "Produce and sign off on non-compliant account remediation report",
+    ],
+    documents: [
+      { name: "Password_Policy_v2.3.pdf", type: "PDF", size: "850 KB", date: "Mar 10, 2026", status: "approved", uploadedBy: "IT Security" },
+      { name: "Non_Compliant_Accounts_Report.xlsx", type: "XLSX", size: "220 KB", date: "—", status: "missing", uploadedBy: "—" },
+      { name: "MFA_Activation_Status_Export.xlsx", type: "XLSX", size: "410 KB", date: "Apr 8, 2026", status: "pending", uploadedBy: "IT Security" },
+    ],
   },
   {
     id: "b-ov-3",
@@ -403,6 +427,18 @@ export const boardItems: BoardItem[] = [
     deadlineStatus: "overdue",
     workflowStatus: "overdue",
     samaRef: "TPRM 3.0",
+    description: "Annual security assessment of third-party vendors with access to banking systems and customer data. Evaluates their security posture, contract compliance, and incident response readiness under SAMA TPRM requirements.",
+    requirements: [
+      "Complete vendor security questionnaire for all Tier-1 vendors",
+      "Review and validate vendor penetration test results from last 12 months",
+      "Confirm cyber insurance coverage meets contractual minimums",
+      "Update vendor risk register with new classification scores",
+    ],
+    documents: [
+      { name: "Vendor_Risk_Register_2026.xlsx", type: "XLSX", size: "1.8 MB", date: "Mar 15, 2026", status: "pending", uploadedBy: "Risk Mgmt" },
+      { name: "Vendor_Security_Questionnaire_Template.docx", type: "DOCX", size: "420 KB", date: "Feb 28, 2026", status: "approved", uploadedBy: "Risk Mgmt" },
+      { name: "Vendor_Pentest_Summary_2025.pdf", type: "PDF", size: "2.1 MB", date: "—", status: "missing", uploadedBy: "—" },
+    ],
   },
   // ── ASSIGNED ──
   {
@@ -415,6 +451,17 @@ export const boardItems: BoardItem[] = [
     deadlineStatus: "soon",
     workflowStatus: "assigned",
     samaRef: "DLP 1.3",
+    description: "Formal data retention policy aligned with SAMA's data lifecycle management requirements. Covers retention periods for all data classifications, archival procedures, and secure disposal of expired financial data per DLP 1.3.",
+    requirements: [
+      "Define retention periods for each data classification tier",
+      "Implement automated archival triggers in the data platform",
+      "Document and test secure data disposal procedures",
+      "Obtain Legal and Compliance sign-off on the final retention schedule",
+    ],
+    documents: [
+      { name: "Data_Retention_Policy_Draft_v1.2.docx", type: "DOCX", size: "640 KB", date: "May 5, 2026", status: "pending", uploadedBy: "Compliance" },
+      { name: "Retention_Schedule_Matrix.xlsx", type: "XLSX", size: "380 KB", date: "May 8, 2026", status: "pending", uploadedBy: "Compliance" },
+    ],
   },
   {
     id: "b-as-2",
@@ -426,6 +473,17 @@ export const boardItems: BoardItem[] = [
     deadlineStatus: "soon",
     workflowStatus: "assigned",
     samaRef: "PAM 1.1",
+    description: "Implementation and validation of PAM controls for all administrative accounts, including session monitoring, just-in-time access provisioning, and privileged session recording. Mandatory under SAMA PAM 1.1.",
+    requirements: [
+      "Deploy PAM solution and onboard all admin and service accounts",
+      "Configure session recording for all privileged remote sessions",
+      "Implement JIT access provisioning workflow with approval gate",
+      "Conduct and document quarterly PAM access review",
+    ],
+    documents: [
+      { name: "PAM_Implementation_Plan.pdf", type: "PDF", size: "1.2 MB", date: "May 10, 2026", status: "pending", uploadedBy: "IT Security" },
+      { name: "Privileged_Account_Inventory.xlsx", type: "XLSX", size: "290 KB", date: "May 9, 2026", status: "pending", uploadedBy: "IT Security" },
+    ],
   },
   {
     id: "b-as-3",
@@ -437,6 +495,17 @@ export const boardItems: BoardItem[] = [
     deadlineStatus: "ok",
     workflowStatus: "assigned",
     samaRef: "TPRM 3.0",
+    description: "Annual risk assessment covering all third-party vendors with access to banking systems and customer data. Includes due diligence reviews, SOC 2 report validation, and contract compliance checks under the updated SAMA TPRM framework.",
+    requirements: [
+      "Identify and classify all Tier-1 and Tier-2 vendors by risk level",
+      "Distribute and collect vendor security assessment questionnaires",
+      "Review SOC 2 Type II or equivalent reports for critical vendors",
+      "Update the vendor risk classification and approval register",
+    ],
+    documents: [
+      { name: "Vendor_List_Q2_2026.xlsx", type: "XLSX", size: "560 KB", date: "May 7, 2026", status: "pending", uploadedBy: "Risk Mgmt" },
+      { name: "TPRM_Assessment_Template.docx", type: "DOCX", size: "330 KB", date: "Apr 20, 2026", status: "approved", uploadedBy: "Risk Mgmt" },
+    ],
   },
   {
     id: "b-as-4",
@@ -448,6 +517,18 @@ export const boardItems: BoardItem[] = [
     deadlineStatus: "ok",
     workflowStatus: "assigned",
     samaRef: "CCSF 2.1",
+    description: "Security baseline assessment for all cloud-hosted banking services on Azure. Validates CIS benchmark compliance, resource group permissions, encryption at rest, and network security group policies per SAMA CCSF 2.1.",
+    requirements: [
+      "Run and document CIS Azure Security Benchmark assessment",
+      "Validate AES-256 encryption is enabled on all storage accounts and databases",
+      "Review all network security group rules for unnecessary exposure",
+      "Confirm private endpoint configuration for all PaaS services",
+    ],
+    documents: [
+      { name: "Azure_Security_Baseline_Report.pdf", type: "PDF", size: "3.1 MB", date: "May 11, 2026", status: "pending", uploadedBy: "IT Security" },
+      { name: "Cloud_Resource_Inventory.xlsx", type: "XLSX", size: "720 KB", date: "May 10, 2026", status: "pending", uploadedBy: "IT Security" },
+      { name: "CIS_Benchmark_Scan_Results.pdf", type: "PDF", size: "1.9 MB", date: "—", status: "missing", uploadedBy: "—" },
+    ],
   },
   {
     id: "b-as-5",
@@ -458,6 +539,17 @@ export const boardItems: BoardItem[] = [
     deadline: "Jun 7, 2026",
     deadlineStatus: "ok",
     workflowStatus: "assigned",
+    description: "Security review of all open banking API endpoints covering authentication, authorization, rate limiting, and data leakage controls. Aligned with SAMA Open Banking API Standards and OWASP API Security Top 10.",
+    requirements: [
+      "Audit all public-facing API endpoints and document their authentication method",
+      "Validate OAuth 2.0 and OpenID Connect implementation across all services",
+      "Test rate limiting, throttle controls, and payload size restrictions",
+      "Verify API access logs are retained for a minimum of 12 months",
+    ],
+    documents: [
+      { name: "API_Security_Checklist.docx", type: "DOCX", size: "210 KB", date: "May 12, 2026", status: "pending", uploadedBy: "Net Security" },
+      { name: "OpenBanking_API_Inventory.xlsx", type: "XLSX", size: "450 KB", date: "May 6, 2026", status: "pending", uploadedBy: "Net Security" },
+    ],
   },
   // ── IN REVIEW ──
   {
@@ -470,6 +562,18 @@ export const boardItems: BoardItem[] = [
     deadlineStatus: "soon",
     workflowStatus: "in_review",
     samaRef: "DGF 2.1",
+    description: "Comprehensive data governance framework covering classification, data lineage, ownership assignments, and handling policies for all banking data assets. Currently under active review by the Data Team and Compliance — due in 2 days.",
+    requirements: [
+      "Publish data classification taxonomy across all 4 sensitivity tiers",
+      "Assign named data owners for all critical and confidential datasets",
+      "Establish data lineage tracking process using the approved tool",
+      "Define and document cross-border data transfer controls",
+    ],
+    documents: [
+      { name: "Data_Gov_Framework_v3.2.docx", type: "DOCX", size: "1.1 MB", date: "May 10, 2026", status: "review", uploadedBy: "Data Team" },
+      { name: "Data_Classification_Matrix.xlsx", type: "XLSX", size: "670 KB", date: "May 9, 2026", status: "review", uploadedBy: "Data Team" },
+      { name: "Data_Owner_Registry.pdf", type: "PDF", size: "440 KB", date: "May 8, 2026", status: "pending", uploadedBy: "Data Team" },
+    ],
   },
   {
     id: "b-ir-2",
@@ -481,6 +585,18 @@ export const boardItems: BoardItem[] = [
     deadlineStatus: "soon",
     workflowStatus: "in_review",
     samaRef: "CCSF 3.5",
+    description: "Validation of encryption standards across all data-at-rest and data-in-transit scenarios. Covers AES-256 compliance, TLS 1.3 enforcement on all external endpoints, and key management procedures per SAMA CCSF 3.5.",
+    requirements: [
+      "Validate AES-256 encryption is applied to all database and file storage tiers",
+      "Confirm TLS 1.3 is enforced on all external-facing APIs and endpoints",
+      "Review key rotation procedures — confirm rotation occurs every 90 days",
+      "Test and document data-in-transit encryption on all internal service calls",
+    ],
+    documents: [
+      { name: "Encryption_Standards_Audit_Report.pdf", type: "PDF", size: "5.8 MB", date: "May 4, 2026", status: "review", uploadedBy: "Net Security" },
+      { name: "TLS_Certificate_Inventory.xlsx", type: "XLSX", size: "310 KB", date: "May 6, 2026", status: "review", uploadedBy: "Net Security" },
+      { name: "Key_Management_Policy_v1.1.pdf", type: "PDF", size: "780 KB", date: "Apr 28, 2026", status: "approved", uploadedBy: "Net Security" },
+    ],
   },
   {
     id: "b-ir-3",
@@ -491,6 +607,18 @@ export const boardItems: BoardItem[] = [
     deadline: "Jun 8, 2026",
     deadlineStatus: "ok",
     workflowStatus: "in_review",
+    description: "Review of network segmentation controls to ensure proper isolation between core banking systems, DMZ, and internet-facing services. Validates firewall rule hygiene and VLAN configuration in compliance with SAMA security architecture standards.",
+    requirements: [
+      "Map all current network zones, trust boundaries, and segment ownership",
+      "Validate firewall rules between each network segment for excess permissions",
+      "Confirm no lateral movement pathways between PCI-DSS zones",
+      "Document VLAN segmentation configuration and obtain network team sign-off",
+    ],
+    documents: [
+      { name: "Network_Segmentation_Diagram.pdf", type: "PDF", size: "2.2 MB", date: "May 7, 2026", status: "review", uploadedBy: "Net Security" },
+      { name: "Firewall_Rules_Audit.xlsx", type: "XLSX", size: "890 KB", date: "May 5, 2026", status: "review", uploadedBy: "Net Security" },
+      { name: "VLAN_Config_Export.txt", type: "TXT", size: "125 KB", date: "May 6, 2026", status: "pending", uploadedBy: "Net Security" },
+    ],
   },
   {
     id: "b-ir-4",
@@ -502,6 +630,18 @@ export const boardItems: BoardItem[] = [
     deadlineStatus: "soon",
     workflowStatus: "in_review",
     samaRef: "CCSF 4.3",
+    description: "Assessment of authentication controls across all banking applications including MFA enforcement rates, SSO configuration with Azure AD, and session timeout policy compliance. Evidence under review ahead of the May 22 deadline.",
+    requirements: [
+      "Confirm MFA is enabled and enforced for 100% of user accounts",
+      "Validate SSO integration is operational with Azure Active Directory",
+      "Review and confirm session timeout thresholds meet the 15-minute policy",
+      "Audit failed login attempt alerting and account lockout configuration",
+    ],
+    documents: [
+      { name: "MFA_Adoption_Report_Q1_2026.pdf", type: "PDF", size: "1.4 MB", date: "May 9, 2026", status: "review", uploadedBy: "IT Security" },
+      { name: "Authentication_Config_Audit.xlsx", type: "XLSX", size: "530 KB", date: "May 8, 2026", status: "review", uploadedBy: "IT Security" },
+      { name: "SSO_Integration_Architecture.pdf", type: "PDF", size: "660 KB", date: "May 7, 2026", status: "pending", uploadedBy: "IT Security" },
+    ],
   },
   // ── APPROVED ──
   {
@@ -514,6 +654,18 @@ export const boardItems: BoardItem[] = [
     deadlineStatus: "ok",
     workflowStatus: "approved",
     samaRef: "CCSF 4.4",
+    description: "Comprehensive audit logging configuration covering system events, user actions, and API calls across all tier-1 banking platforms. Logs retained for 12 months in tamper-proof storage with SIEM integration. All evidence approved — awaiting final evidencing.",
+    requirements: [
+      "Configure structured logging on all tier-1 and tier-2 production systems",
+      "Enable centralised log forwarding to SIEM with alerting",
+      "Set and validate 12-month log retention with tamper-proof write-once storage",
+      "Validate log integrity checksums on a quarterly basis",
+    ],
+    documents: [
+      { name: "Audit_Logging_Policy_v2.0.pdf", type: "PDF", size: "1.0 MB", date: "Apr 20, 2026", status: "approved", uploadedBy: "Compliance" },
+      { name: "SIEM_Log_Coverage_Report.xlsx", type: "XLSX", size: "760 KB", date: "Apr 25, 2026", status: "approved", uploadedBy: "Compliance" },
+      { name: "Log_Retention_Configuration.pdf", type: "PDF", size: "320 KB", date: "Apr 22, 2026", status: "approved", uploadedBy: "SecOps" },
+    ],
   },
   {
     id: "b-ap-2",
@@ -525,6 +677,18 @@ export const boardItems: BoardItem[] = [
     deadlineStatus: "ok",
     workflowStatus: "approved",
     samaRef: "IR 2.1",
+    description: "Updated incident response procedures aligned with SAMA's 72-hour reporting obligation. Includes escalation paths, P1/P2/P3 classification guide, stakeholder communication templates, and post-incident review process. All documentation fully approved.",
+    requirements: [
+      "Define and document P1/P2/P3 incident severity classification criteria",
+      "Document the 72-hour SAMA notification workflow with contact list",
+      "Assign incident response roles, deputies, and escalation contacts",
+      "Conduct and log a quarterly IR tabletop exercise with results",
+    ],
+    documents: [
+      { name: "Incident_Response_Plan_v3.1.pdf", type: "PDF", size: "2.8 MB", date: "Apr 18, 2026", status: "approved", uploadedBy: "SecOps" },
+      { name: "IR_Escalation_Matrix.xlsx", type: "XLSX", size: "210 KB", date: "Apr 17, 2026", status: "approved", uploadedBy: "SecOps" },
+      { name: "SAMA_72h_Notification_Template.docx", type: "DOCX", size: "145 KB", date: "Apr 16, 2026", status: "approved", uploadedBy: "Compliance" },
+    ],
   },
   {
     id: "b-ap-3",
@@ -536,6 +700,18 @@ export const boardItems: BoardItem[] = [
     deadlineStatus: "ok",
     workflowStatus: "approved",
     samaRef: "CCSF 5.1",
+    description: "Policy and procedures for regular vulnerability scanning of all production systems. Defines scan frequency, CVSS severity thresholds, mandatory patching SLAs, and automated reporting requirements per SAMA CCSF 5.1. Evidence approved.",
+    requirements: [
+      "Define scan frequency: weekly for critical assets, monthly for all others",
+      "Set CVSS ≥7.0 as the mandatory patching threshold within 72 hours",
+      "Establish 30-day remediation SLA for high-severity CVEs",
+      "Configure automated scan reports delivered to CISO and risk team",
+    ],
+    documents: [
+      { name: "Vulnerability_Scanning_Policy_v1.4.pdf", type: "PDF", size: "1.6 MB", date: "Apr 24, 2026", status: "approved", uploadedBy: "IT Security" },
+      { name: "Q1_2026_Scan_Results_Summary.xlsx", type: "XLSX", size: "1.2 MB", date: "Apr 22, 2026", status: "approved", uploadedBy: "IT Security" },
+      { name: "Critical_CVE_Remediation_Log.pdf", type: "PDF", size: "540 KB", date: "Apr 28, 2026", status: "approved", uploadedBy: "IT Security" },
+    ],
   },
   // ── EVIDENCED ──
   {
@@ -548,6 +724,18 @@ export const boardItems: BoardItem[] = [
     deadlineStatus: "ok",
     workflowStatus: "evidenced",
     samaRef: "BCM 2.0",
+    description: "Business continuity plan and disaster recovery procedures fully evidenced, including validated RTO ≤4h / RPO ≤1h targets, DR failover test results, and backup site readiness sign-off. Fully compliant with SAMA BCM 2.0.",
+    requirements: [
+      "Document and validate RTO ≤4h and RPO ≤1h for all tier-1 systems",
+      "Conduct and record the annual DR failover test with pass/fail outcome",
+      "Validate backup site infrastructure readiness and capacity",
+      "Obtain business stakeholder sign-off on the BCP document",
+    ],
+    documents: [
+      { name: "BCP_Document_v4.0.pdf", type: "PDF", size: "4.2 MB", date: "Apr 2, 2026", status: "approved", uploadedBy: "Infrastructure" },
+      { name: "DR_Failover_Test_Results_Q1_2026.xlsx", type: "XLSX", size: "890 KB", date: "Apr 5, 2026", status: "approved", uploadedBy: "Infrastructure" },
+      { name: "RTO_RPO_Validation_Report.pdf", type: "PDF", size: "1.1 MB", date: "Apr 8, 2026", status: "approved", uploadedBy: "Infrastructure" },
+    ],
   },
   {
     id: "b-ev-2",
@@ -558,6 +746,18 @@ export const boardItems: BoardItem[] = [
     deadline: "Jun 18, 2026",
     deadlineStatus: "ok",
     workflowStatus: "evidenced",
+    description: "Formal change management process for all production system modifications including CAB approval workflow, mandatory rollback plans for high-risk changes, and emergency change handling procedures. Fully documented and evidenced.",
+    requirements: [
+      "All standard changes must pass through CAB approval before deployment",
+      "Rollback plans are mandatory for any change classified as high-risk",
+      "All changes must be logged in the ITSM platform with completion confirmation",
+      "Emergency change procedure must be followed for out-of-band deployments",
+    ],
+    documents: [
+      { name: "Change_Management_Process_v2.2.pdf", type: "PDF", size: "1.8 MB", date: "Mar 20, 2026", status: "approved", uploadedBy: "IT Ops" },
+      { name: "CAB_Meeting_Minutes_Q1_2026.pdf", type: "PDF", size: "560 KB", date: "Mar 31, 2026", status: "approved", uploadedBy: "IT Ops" },
+      { name: "Change_Log_Q1_2026.xlsx", type: "XLSX", size: "730 KB", date: "Mar 31, 2026", status: "approved", uploadedBy: "IT Ops" },
+    ],
   },
   {
     id: "b-ev-3",
@@ -568,6 +768,18 @@ export const boardItems: BoardItem[] = [
     deadline: "Jun 20, 2026",
     deadlineStatus: "ok",
     workflowStatus: "evidenced",
+    description: "Complete hardware and software asset inventory maintained through the CMDB. Covers all servers, endpoints, network devices, and SaaS licenses. Quarterly reconciliation process in place and evidenced for SAMA audit requirements.",
+    requirements: [
+      "Maintain CMDB with complete hardware asset records and ownership",
+      "Track all software licenses, versions, and expiry dates",
+      "Conduct and document quarterly asset reconciliation against CMDB",
+      "Flag and initiate secure disposal workflow for decommissioned assets",
+    ],
+    documents: [
+      { name: "Asset_Inventory_Q1_2026.xlsx", type: "XLSX", size: "2.1 MB", date: "Mar 28, 2026", status: "approved", uploadedBy: "IT Ops" },
+      { name: "CMDB_Snapshot_May_2026.pdf", type: "PDF", size: "1.4 MB", date: "May 1, 2026", status: "approved", uploadedBy: "IT Ops" },
+      { name: "Software_License_Register.xlsx", type: "XLSX", size: "830 KB", date: "Mar 31, 2026", status: "approved", uploadedBy: "IT Ops" },
+    ],
   },
   {
     id: "b-ev-4",
@@ -579,6 +791,18 @@ export const boardItems: BoardItem[] = [
     deadlineStatus: "ok",
     workflowStatus: "evidenced",
     samaRef: "BCM 1.2",
+    description: "Documented backup procedures for all critical banking systems including backup frequency per system tier, storage locations, AES-256 encryption at rest, and quarterly restoration test results. Aligned with SAMA BCM 1.2.",
+    requirements: [
+      "Define and document backup frequency for each system tier (daily/hourly)",
+      "Ensure all backup archives are encrypted with AES-256 at rest",
+      "Perform and record quarterly restoration tests for critical systems",
+      "Maintain geographically separated offsite backup copies",
+    ],
+    documents: [
+      { name: "Backup_Procedures_v2.1.pdf", type: "PDF", size: "1.3 MB", date: "Apr 10, 2026", status: "approved", uploadedBy: "Infrastructure" },
+      { name: "Backup_Restoration_Test_Q1_2026.xlsx", type: "XLSX", size: "480 KB", date: "Apr 15, 2026", status: "approved", uploadedBy: "Infrastructure" },
+      { name: "Backup_Schedule_All_Systems.xlsx", type: "XLSX", size: "310 KB", date: "Mar 30, 2026", status: "approved", uploadedBy: "Infrastructure" },
+    ],
   },
   {
     id: "b-ev-5",
@@ -589,6 +813,18 @@ export const boardItems: BoardItem[] = [
     deadline: "Jun 25, 2026",
     deadlineStatus: "ok",
     workflowStatus: "evidenced",
+    description: "Annual mandatory security awareness training completed by all 412 staff members. Covers phishing recognition, password hygiene, data classification handling, and SAMA compliance obligations. Training records and completion certificates fully evidenced.",
+    requirements: [
+      "Achieve 100% staff training completion as tracked in the LMS",
+      "Include and record a phishing simulation exercise with click-rate metrics",
+      "Export completion report from LMS signed off by HR",
+      "Collect and archive individual staff acknowledgement sign-offs",
+    ],
+    documents: [
+      { name: "Security_Training_Completion_Report.pdf", type: "PDF", size: "920 KB", date: "Mar 15, 2026", status: "approved", uploadedBy: "HR Dept" },
+      { name: "Phishing_Simulation_Results_Q1_2026.xlsx", type: "XLSX", size: "340 KB", date: "Mar 18, 2026", status: "approved", uploadedBy: "HR Dept" },
+      { name: "Staff_Acknowledgement_Log.pdf", type: "PDF", size: "1.7 MB", date: "Mar 20, 2026", status: "approved", uploadedBy: "HR Dept" },
+    ],
   },
 ];
 

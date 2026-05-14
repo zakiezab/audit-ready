@@ -20,6 +20,10 @@ import {
   Clock,
   AlertTriangle,
   User,
+  ListChecks,
+  File,
+  XCircle,
+  HourglassIcon,
 } from "lucide-react";
 
 interface BoardItemSheetProps {
@@ -141,22 +145,64 @@ export function BoardItemSheet({ item, open, onOpenChange, onStatusChange }: Boa
             ))}
           </div>
 
-          {/* Evidence placeholder */}
+          {/* Description */}
+          {item.description && (
+            <div>
+              <p className="text-[10px] font-semibold tracking-[0.1em] uppercase text-secondary-300 mb-2">About This Control</p>
+              <p className="text-xs text-secondary-200 leading-relaxed">{item.description}</p>
+            </div>
+          )}
+
+          {/* Requirements / Objectives */}
+          {item.requirements && item.requirements.length > 0 && (
+            <div>
+              <div className="flex items-center gap-1.5 mb-2.5">
+                <ListChecks size={12} className="text-secondary" />
+                <p className="text-[10px] font-semibold tracking-[0.1em] uppercase text-secondary-300">Control Objectives</p>
+              </div>
+              <div className="flex flex-col gap-2">
+                {item.requirements.map((req, i) => (
+                  <div key={i} className="flex items-start gap-2.5 bg-[rgba(97,59,254,0.05)] border border-[rgba(97,59,254,0.12)] rounded-sm px-3 py-2">
+                    <span className="text-[9px] font-bold text-secondary mt-0.5 flex-shrink-0">{String(i + 1).padStart(2, "0")}</span>
+                    <p className="text-[11px] text-secondary-200 leading-snug">{req}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Documents */}
           <div>
-            <div className="flex items-center justify-between mb-2">
-              <p className="text-[10px] font-semibold tracking-[0.12em] uppercase text-secondary-300">Evidence</p>
+            <div className="flex items-center justify-between mb-2.5">
+              <p className="text-[10px] font-semibold tracking-[0.1em] uppercase text-secondary-300">Evidence Documents</p>
               <Button variant="outline" size="sm" className="gap-1 text-[10px]">
                 <Upload size={10} /> Upload
               </Button>
             </div>
-            {currentStatus === "evidenced" || currentStatus === "approved" ? (
-              <div className="flex items-center gap-3 bg-[rgba(34,197,94,0.06)] border border-[rgba(34,197,94,0.2)] rounded-sm p-3">
-                <FileText size={14} className="text-risk-low flex-shrink-0" />
-                <div className="flex-1">
-                  <p className="text-xs font-medium text-secondary-100">Evidence_Report_Final.pdf</p>
-                  <p className="text-[10px] text-secondary-300 mt-0.5">Uploaded Apr 28 · 2.4 MB · Approved</p>
-                </div>
-                <CheckCircle2 size={14} className="text-risk-low flex-shrink-0" />
+            {item.documents && item.documents.length > 0 ? (
+              <div className="flex flex-col gap-2">
+                {item.documents.map((doc, i) => {
+                  const docStatusConfig = {
+                    approved: { cls: "text-risk-low bg-[rgba(34,197,94,0.08)] border-[rgba(34,197,94,0.2)]", icon: <CheckCircle2 size={11} className="text-risk-low flex-shrink-0" /> },
+                    review:   { cls: "text-[#6B9FFF] bg-[rgba(24,84,232,0.08)] border-[rgba(24,84,232,0.2)]", icon: <HourglassIcon size={11} className="text-[#6B9FFF] flex-shrink-0" /> },
+                    pending:  { cls: "text-risk-medium bg-[rgba(249,169,49,0.08)] border-[rgba(249,169,49,0.2)]", icon: <Clock size={11} className="text-risk-medium flex-shrink-0" /> },
+                    missing:  { cls: "text-risk-high bg-[rgba(239,68,68,0.06)] border-[rgba(239,68,68,0.18)]", icon: <XCircle size={11} className="text-risk-high flex-shrink-0" /> },
+                  }[doc.status];
+                  return (
+                    <div key={i} className={`flex items-center gap-3 rounded-sm border p-3 ${docStatusConfig.cls}`}>
+                      <File size={14} className="text-secondary-300 flex-shrink-0" />
+                      <div className="flex-1 min-w-0">
+                        <p className="text-[11px] font-medium text-secondary-100 truncate">{doc.name}</p>
+                        <p className="text-[10px] text-secondary-300 mt-0.5">
+                          {doc.type} · {doc.size}
+                          {doc.date !== "—" && ` · ${doc.date}`}
+                          {doc.uploadedBy !== "—" && ` · ${doc.uploadedBy}`}
+                        </p>
+                      </div>
+                      {docStatusConfig.icon}
+                    </div>
+                  );
+                })}
               </div>
             ) : (
               <div className="border border-dashed border-[rgba(255,255,255,0.08)] rounded-sm p-5 text-center">
