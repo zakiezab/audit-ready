@@ -73,16 +73,16 @@ export default function SettingsPage() {
   return (
     <MainLayout>
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h1 className="text-xl font-semibold text-secondary-100">Settings</h1>
+      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="min-w-0">
+          <h1 className="text-lg font-semibold text-secondary-100 sm:text-xl">Settings</h1>
           <p className="text-xs text-secondary-300 mt-0.5">
             Configure platform behaviour, integrations, and team access
           </p>
         </div>
         <button
           onClick={handleSave}
-          className={`flex items-center gap-2 text-xs px-4 py-2 rounded-sm font-medium transition-all ${
+          className={`flex w-full flex-shrink-0 items-center justify-center gap-2 rounded-sm px-4 py-2 text-xs font-medium transition-all sm:w-auto ${
             saved
               ? "bg-[rgba(34,197,94,0.15)] border border-[rgba(34,197,94,0.3)] text-risk-low"
               : "btn-brand"
@@ -96,9 +96,9 @@ export default function SettingsPage() {
         </button>
       </div>
 
-      <div className="grid grid-cols-12 gap-5">
-        {/* Tab sidebar */}
-        <div className="col-span-3 flex flex-col gap-1">
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-12">
+        {/* Tab sidebar — horizontal scroll on small screens */}
+        <div className="flex gap-1 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] lg:col-span-3 lg:flex-col lg:overflow-visible lg:pb-0 [&::-webkit-scrollbar]:hidden">
           {sectionTabs.map((tab) => {
             const Icon = tab.icon;
             const active = activeTab === tab.key;
@@ -106,7 +106,7 @@ export default function SettingsPage() {
               <button
                 key={tab.key}
                 onClick={() => setActiveTab(tab.key)}
-                className={`flex items-center gap-2.5 px-3 py-2.5 rounded-sm text-xs font-medium transition-all text-left ${
+                className={`flex flex-shrink-0 items-center gap-2.5 rounded-sm px-3 py-2.5 text-left text-xs font-medium transition-all lg:w-full ${
                   active
                     ? "bg-[rgba(97,59,254,0.12)] border border-[rgba(97,59,254,0.25)] text-secondary-100"
                     : "text-secondary-300 hover:text-secondary-100 hover:bg-[rgba(255,255,255,0.04)]"
@@ -114,14 +114,16 @@ export default function SettingsPage() {
               >
                 <Icon size={14} className={active ? "text-secondary" : "opacity-60"} />
                 {tab.label}
-                {active && <ChevronRight size={12} className="ml-auto text-secondary opacity-70" />}
+                {active && (
+                  <ChevronRight size={12} className="ml-auto hidden text-secondary opacity-70 lg:block" />
+                )}
               </button>
             );
           })}
         </div>
 
         {/* Content */}
-        <div className="col-span-9 flex flex-col gap-5">
+        <div className="flex flex-col gap-5 lg:col-span-9">
 
           {/* ── GENERAL ── */}
           {activeTab === "general" && (
@@ -134,7 +136,7 @@ export default function SettingsPage() {
                     Organisation
                   </p>
                 </div>
-                <div className="p-5 grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 p-5 sm:grid-cols-2">
                   <div>
                     <label className="block text-[11px] font-semibold text-secondary-300 mb-1.5">Organisation Name</label>
                     <div className="flex items-center gap-2 bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.08)] rounded-sm px-3 py-2.5 focus-within:border-secondary transition-all">
@@ -199,7 +201,7 @@ export default function SettingsPage() {
                     { label: "Audit Deadline Alerts", desc: "Send in-app alerts when evidence deadlines approach", on: auditAlerts, toggle: () => setAuditAlerts((v) => !v) },
                     { label: "Two-Factor Authentication", desc: "Require 2FA for all team members at login", on: twoFactor, toggle: () => setTwoFactor((v) => !v) },
                   ].map(({ label, desc, on, toggle }) => (
-                    <div key={label} className="flex items-center justify-between px-5 py-3.5">
+                    <div key={label} className="flex flex-col gap-3 px-5 py-3.5 sm:flex-row sm:items-center sm:justify-between">
                       <div>
                         <p className="text-xs font-medium text-secondary-100">{label}</p>
                         <p className="text-[10px] text-secondary-300 mt-0.5">{desc}</p>
@@ -207,7 +209,7 @@ export default function SettingsPage() {
                       <Toggle on={on} onToggle={toggle} />
                     </div>
                   ))}
-                  <div className="flex items-center justify-between px-5 py-3.5">
+                  <div className="flex flex-col gap-3 px-5 py-3.5 sm:flex-row sm:items-center sm:justify-between">
                     <div>
                       <p className="text-xs font-medium text-secondary-100">Data Retention Period</p>
                       <p className="text-[10px] text-secondary-300 mt-0.5">How long evidence and audit logs are kept</p>
@@ -288,7 +290,7 @@ export default function SettingsPage() {
                     detail: "Publish live reports to your BI workspace",
                   },
                 ].map((item) => (
-                  <div key={item.name} className="flex items-center justify-between px-5 py-4">
+                  <div key={item.name} className="flex flex-col gap-3 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
                     <div className="flex items-start gap-3">
                       <div className={`mt-1 w-1.5 h-1.5 rounded-full flex-shrink-0 ${item.dotColor}`} />
                       <div>
@@ -313,7 +315,7 @@ export default function SettingsPage() {
           {activeTab === "audit" && (
             <>
               <div className="audit-card overflow-hidden">
-                <div className="px-5 py-4 border-b border-[rgba(255,255,255,0.04)] flex items-center justify-between">
+                <div className="flex flex-col gap-3 border-b border-[rgba(255,255,255,0.04)] px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-5">
                   <div className="flex items-center gap-2">
                     <CalendarDays size={13} className="text-secondary-300" />
                     <p className="text-[11px] font-semibold tracking-[0.08em] uppercase text-secondary-300">
@@ -324,7 +326,7 @@ export default function SettingsPage() {
                 </div>
                 <div className="divide-y divide-[rgba(255,255,255,0.04)]">
                   {auditCycles.map((cycle) => (
-                    <div key={cycle.label} className="flex items-center justify-between px-5 py-3.5">
+                    <div key={cycle.label} className="flex flex-col gap-3 px-5 py-3.5 sm:flex-row sm:items-center sm:justify-between">
                       <div>
                         <p className="text-xs font-medium text-secondary-100">{cycle.label}</p>
                         <p className="text-[10px] text-secondary-300 mt-0.5">{cycle.range}</p>
@@ -355,7 +357,7 @@ export default function SettingsPage() {
                     Active Cycle Settings
                   </p>
                 </div>
-                <div className="p-5 grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 p-5 sm:grid-cols-2">
                   {[
                     { label: "Evidence Deadline Reminder", value: "7 days before due" },
                     { label: "Escalation Threshold (overdue)", value: "3 days" },
@@ -377,14 +379,14 @@ export default function SettingsPage() {
           {/* ── USER MANAGEMENT ── */}
           {activeTab === "users" && (
             <div className="audit-card overflow-hidden">
-              <div className="px-5 py-4 border-b border-[rgba(255,255,255,0.04)] flex items-center justify-between">
+              <div className="flex flex-col gap-3 border-b border-[rgba(255,255,255,0.04)] px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-5">
                 <div className="flex items-center gap-2">
                   <Users size={13} className="text-secondary-300" />
                   <p className="text-[11px] font-semibold tracking-[0.08em] uppercase text-secondary-300">
                     Team Members
                   </p>
                 </div>
-                <button className="btn-brand text-[10px] px-3 py-1.5">+ Invite User</button>
+                <button className="btn-brand self-start text-[10px] px-3 py-1.5 sm:self-auto">+ Invite User</button>
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full">
@@ -447,7 +449,8 @@ export default function SettingsPage() {
                   <p className="text-[11px] font-semibold tracking-[0.08em] uppercase text-secondary-300">Evidence Approval Chain</p>
                   <span className="text-[9px] text-secondary bg-[rgba(97,59,254,0.15)] px-1.5 py-0.5 rounded-full">Who approves what</span>
                 </div>
-                <div className="flex items-stretch gap-0">
+                <div className="overflow-x-auto pb-1">
+                  <div className="flex min-w-[720px] items-stretch gap-0 lg:min-w-0">
                   {[
                     { step: "1", action: "Submit Evidence", role: "Evidence Reviewer", roleColor: "text-[#A48DFF]", roleBg: "bg-[rgba(97,59,254,0.12)]", desc: "Owner uploads evidence file linked to a control", connectorColor: "bg-[rgba(255,255,255,0.1)]" },
                     { step: "2", action: "Review Evidence", role: "Audit Analyst", roleColor: "text-[#6B9FFF]", roleBg: "bg-[rgba(107,159,255,0.12)]", desc: "Analyst checks completeness and SAMA alignment", connectorColor: "bg-[rgba(255,255,255,0.1)]" },
@@ -471,6 +474,7 @@ export default function SettingsPage() {
                       )}
                     </div>
                   ))}
+                </div>
                 </div>
               </div>
 

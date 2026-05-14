@@ -188,10 +188,10 @@ export default function GovernancePage() {
   return (
     <MainLayout>
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h1 className="text-xl font-semibold text-secondary-100">Governance & Workflow</h1>
-          <p className="text-xs text-secondary-300 mt-0.5">
+      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="min-w-0">
+          <h1 className="text-lg font-semibold text-secondary-100 sm:text-xl">Governance & Workflow</h1>
+          <p className="mt-0.5 text-xs text-secondary-300">
             {workflowCounts.total} total controls · {workflowCounts.overdue} overdue ·{" "}
             {workflowCounts.evidenced} evidenced
           </p>
@@ -205,7 +205,7 @@ export default function GovernancePage() {
       </div>
 
       {/* Tab nav */}
-      <div className="flex items-center gap-0 border-b border-[rgba(255,255,255,0.06)] mb-6">
+      <div className="mb-6 flex gap-0 overflow-x-auto border-b border-[rgba(255,255,255,0.06)] pb-px [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {[
           { key: "board",     label: "Workflow Board",  Icon: ClipboardList },
           { key: "tasks",     label: "My Tasks",        Icon: CheckCircle2 },
@@ -214,7 +214,7 @@ export default function GovernancePage() {
           <button
             key={key}
             onClick={() => setActiveTab(key as any)}
-            className={`flex items-center gap-2 px-5 py-3 text-xs font-medium border-b-2 transition-all ${
+            className={`flex flex-shrink-0 items-center gap-2 px-4 py-3 text-xs font-medium border-b-2 transition-all sm:px-5 ${
               activeTab === key
                 ? "border-primary text-secondary-100"
                 : "border-transparent text-secondary-300 hover:text-secondary-100"
@@ -233,7 +233,7 @@ export default function GovernancePage() {
 
       {/* ── Workflow Board ─────────────────────────────────────── */}
       {activeTab === "board" && (
-        <div className="grid grid-cols-5 gap-3">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
           {columns.map((col) => {
             const items = grouped[col.workflowKey];
             const visible = items.slice(0, CARDS_PER_COL);
@@ -408,14 +408,16 @@ function ApprovalRow({
   }
 
   return (
-    <div className="flex items-center gap-4 px-5 py-4 border-b border-[rgba(255,255,255,0.04)] last:border-0">
-      <div className={`w-2 h-2 rounded-full flex-shrink-0 ${dotColor[item.priority]}`} />
-      <div className="flex-1 min-w-0">
-        <p className="text-xs font-medium text-secondary-100 truncate">{item.title}</p>
-        <p className="text-[10px] text-secondary-300 mt-0.5">{item.meta}</p>
+    <div className="flex flex-col gap-3 border-b border-[rgba(255,255,255,0.04)] px-4 py-4 last:border-0 sm:flex-row sm:items-center sm:gap-4 sm:px-5">
+      <div className="flex min-w-0 flex-1 items-start gap-3">
+        <div className={`mt-1.5 h-2 w-2 flex-shrink-0 rounded-full ${dotColor[item.priority]}`} />
+        <div className="min-w-0 flex-1">
+          <p className="truncate text-xs font-medium text-secondary-100">{item.title}</p>
+          <p className="mt-0.5 text-[10px] text-secondary-300">{item.meta}</p>
+        </div>
+        <RiskBadge risk={item.priority} />
       </div>
-      <RiskBadge risk={item.priority} />
-      <div className="flex items-center gap-1.5 flex-shrink-0">
+      <div className="flex flex-shrink-0 flex-wrap items-center gap-1.5 sm:justify-end">
         <button
           onClick={handleApprove}
           className="flex items-center gap-1 text-[11px] font-medium text-risk-low border border-[rgba(34,197,94,0.25)] bg-[rgba(34,197,94,0.08)] hover:bg-[rgba(34,197,94,0.15)] px-3 py-1.5 rounded-sm transition-all"

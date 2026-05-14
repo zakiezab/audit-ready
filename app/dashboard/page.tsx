@@ -19,16 +19,16 @@ export default function DashboardPage() {
       <SamaNotification />
 
       {/* Page Header */}
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h1 className="text-xl font-semibold text-secondary-100">
+      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="min-w-0">
+          <h1 className="text-lg font-semibold text-secondary-100 sm:text-xl">
             IT Governance Dashboard
           </h1>
-          <p className="text-xs text-secondary-300 mt-0.5">
+          <p className="mt-0.5 text-xs text-secondary-300">
             {kpiData.reviewQuarter} Audit Cycle · {kpiData.daysToReview} days to next review
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-shrink-0 flex-wrap items-center gap-2">
           <button className="btn-outline-brand text-xs px-4 py-2">
             Export Report
           </button>
@@ -44,9 +44,9 @@ export default function DashboardPage() {
       </DashboardEnter>
 
       {/* Top Row: Gauge + KPI Cards (equal column height) */}
-      <div className="grid grid-cols-12 gap-5 mb-5 items-stretch">
+      <div className="mb-5 grid grid-cols-1 items-stretch gap-5 lg:grid-cols-12">
         {/* Readiness Gauge */}
-        <div className="col-span-3 flex min-h-0">
+        <div className="flex min-h-[220px] lg:col-span-3 lg:min-h-0">
           <DashboardEnter delayMs={50} className="flex w-full min-h-0 flex-1 flex-col justify-center">
             <DashboardTooltip description="A visual representation of your SAMA audit readiness across all active controls, scored from 0 to 1000." position="bottom">
               <ReadinessGauge score={kpiData.readinessScore} delta={kpiData.readinessDelta} />
@@ -55,14 +55,14 @@ export default function DashboardPage() {
         </div>
 
         {/* KPI Cards */}
-        <div className="col-span-9 flex min-h-0">
+        <div className="flex min-h-0 lg:col-span-9">
           <KpiCards data={kpiData} />
         </div>
       </div>
 
       {/* Second Row: Risk Bars + Workflow Status + My Tasks (equal column height) */}
-      <div className="grid grid-cols-12 gap-5 mb-5 items-stretch">
-        <div className="col-span-3 flex min-h-0">
+      <div className="mb-5 grid grid-cols-1 items-stretch gap-5 md:grid-cols-2 lg:grid-cols-12">
+        <div className="flex min-h-0 lg:col-span-3">
           <DashboardEnter delayMs={320} className="flex h-full min-h-0 min-w-0 w-full flex-1 flex-col">
             <DashboardTooltip
               className="flex h-full min-h-0 flex-col"
@@ -78,7 +78,7 @@ export default function DashboardPage() {
             </DashboardTooltip>
           </DashboardEnter>
         </div>
-        <div className="col-span-4 flex min-h-0">
+        <div className="flex min-h-0 lg:col-span-4">
           <DashboardEnter delayMs={380} className="flex h-full min-h-0 min-w-0 w-full flex-1 flex-col">
             <DashboardTooltip
               className="flex h-full min-h-0 flex-col"
@@ -89,7 +89,7 @@ export default function DashboardPage() {
             </DashboardTooltip>
           </DashboardEnter>
         </div>
-        <div className="col-span-5 flex min-h-0">
+        <div className="flex min-h-0 md:col-span-2 lg:col-span-5">
           <DashboardEnter delayMs={440} className="flex h-full min-h-0 min-w-0 w-full flex-1 flex-col">
             <DashboardTooltip
               className="flex h-full min-h-0 flex-col"

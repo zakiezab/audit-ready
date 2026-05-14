@@ -24,7 +24,8 @@ export function WorkflowStatus({ counts }: { counts: WorkflowCounts }) {
       </div>
 
       {/* Step counts */}
-      <div className="flex min-h-0 flex-1 border-b border-[rgba(255,255,255,0.04)]">
+      <div className="min-h-0 flex-1 overflow-x-auto border-b border-[rgba(255,255,255,0.04)]">
+        <div className="flex min-h-0 min-w-[520px] flex-1 lg:min-w-0">
         {stepConfig.map((step, i) => (
           <div
             key={step.key}
@@ -38,6 +39,7 @@ export function WorkflowStatus({ counts }: { counts: WorkflowCounts }) {
             </p>
           </div>
         ))}
+        </div>
       </div>
 
       {/* Progress bar */}

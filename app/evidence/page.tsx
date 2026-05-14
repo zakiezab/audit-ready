@@ -69,14 +69,14 @@ export default function EvidencePage() {
   return (
     <MainLayout>
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h1 className="text-xl font-semibold text-secondary-100">Evidence Hub</h1>
+      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div className="min-w-0">
+          <h1 className="text-lg font-semibold text-secondary-100 sm:text-xl">Evidence Hub</h1>
           <p className="text-xs text-secondary-300 mt-0.5">
             {counts.total} evidence items · {counts.missing} missing · {counts.pending} pending review
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-shrink-0 flex-wrap gap-2">
           <button className="btn-outline-brand text-xs px-4 py-2 flex items-center gap-1.5">
             <Download size={13} /> Export All
           </button>
@@ -87,7 +87,7 @@ export default function EvidencePage() {
       </div>
 
       {/* Summary pills */}
-      <div className="grid grid-cols-4 gap-4 mb-5">
+      <div className="mb-5 grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4">
         {[
           { label: "Approved", key: "approved" as EvidenceStatus, count: counts.approved, cls: "text-risk-low border-[rgba(34,197,94,0.2)] bg-[rgba(34,197,94,0.05)]" },
           { label: "In Review", key: "review" as EvidenceStatus, count: counts.review, cls: "text-[#6B9FFF] border-[rgba(107,159,255,0.2)] bg-[rgba(107,159,255,0.05)]" },
@@ -110,7 +110,7 @@ export default function EvidencePage() {
         onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
         onDragLeave={() => setDragOver(false)}
         onDrop={(e) => { e.preventDefault(); setDragOver(false); }}
-        className={`audit-card border-2 border-dashed p-8 mb-5 flex flex-col items-center justify-center text-center transition-all ${
+        className={`audit-card mb-5 flex flex-col items-center justify-center border-2 border-dashed p-6 text-center transition-all sm:p-8 ${
           dragOver
             ? "border-secondary bg-[rgba(97,59,254,0.08)]"
             : "border-[rgba(255,255,255,0.08)] hover:border-[rgba(255,255,255,0.15)]"
@@ -125,8 +125,8 @@ export default function EvidencePage() {
       </div>
 
       {/* Filters */}
-      <div className="flex items-center gap-3 mb-4">
-        <div className="flex items-center gap-2 flex-1 bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.07)] rounded-sm px-3 py-2">
+      <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center">
+        <div className="flex min-w-0 flex-1 items-center gap-2 rounded-sm border border-[rgba(255,255,255,0.07)] bg-[rgba(255,255,255,0.03)] px-3 py-2">
           <Search size={14} className="text-secondary-300 flex-shrink-0" />
           <input
             type="text"
@@ -136,11 +136,11 @@ export default function EvidencePage() {
             className="bg-transparent text-xs text-secondary-100 placeholder:text-secondary-300 outline-none flex-1"
           />
         </div>
-        <div className="relative">
+        <div className="relative w-full min-w-0 sm:w-auto sm:min-w-[140px]">
           <select
             value={stageFilter}
             onChange={(e) => setStageFilter(e.target.value as any)}
-            className="appearance-none bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.07)] rounded-sm pl-3 pr-8 py-2 text-xs text-secondary-100 outline-none cursor-pointer"
+            className="w-full cursor-pointer appearance-none rounded-sm border border-[rgba(255,255,255,0.07)] bg-[rgba(255,255,255,0.03)] py-2 pl-3 pr-8 text-xs text-secondary-100 outline-none sm:w-auto"
           >
             <option value="all">All Statuses</option>
             <option value="approved">Approved</option>
@@ -150,7 +150,7 @@ export default function EvidencePage() {
           </select>
           <ChevronDown size={12} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-secondary-300 pointer-events-none" />
         </div>
-        <span className="text-[11px] text-secondary-300">{filtered.length} items</span>
+        <span className="text-[11px] text-secondary-300 sm:ml-auto">{filtered.length} items</span>
       </div>
 
       {/* Evidence List */}

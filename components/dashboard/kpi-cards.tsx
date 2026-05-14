@@ -71,7 +71,7 @@ function KpiCard({ label, value, suffix, sub, icon, accentColor, iconBg, enterDe
       </div>
 
       <div className="min-w-0">
-        <p className="font-metrophobic text-[72px] leading-none text-secondary-100">
+        <p className="font-metrophobic text-4xl leading-none text-secondary-100 sm:text-5xl md:text-6xl lg:text-[72px]">
           {displayValue}
         </p>
         {suffix ? (
@@ -92,7 +92,7 @@ function KpiCard({ label, value, suffix, sub, icon, accentColor, iconBg, enterDe
 
 export function KpiCards({ data }: { data: KpiData }) {
   return (
-    <div className="grid h-full min-h-0 min-w-0 w-full flex-1 grid-cols-4 gap-4">
+    <div className="grid h-full min-h-0 min-w-0 w-full flex-1 grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
       <KpiCard
         label="Readiness Score"
         value={data.readinessScore}

@@ -24,14 +24,14 @@ function MicrosoftLogo({ className }: { className?: string }) {
 
 export function MicrosoftBar() {
   return (
-    <div className="audit-card flex items-center px-5 py-3 gap-0">
-      <div className="mr-5 flex flex-shrink-0 items-center gap-2">
+    <div className="audit-card flex flex-col items-stretch gap-3 px-4 py-3 sm:flex-row sm:items-center sm:gap-0 sm:px-5">
+      <div className="flex flex-shrink-0 items-center gap-2 sm:mr-5">
         <MicrosoftLogo className="flex-shrink-0" />
         <p className="text-[10px] font-semibold tracking-[0.1em] uppercase text-secondary-300">
           Microsoft Ecosystem
         </p>
       </div>
-      <div className="flex flex-1 flex-wrap">
+      <div className="flex flex-1 flex-wrap items-center gap-y-2 sm:gap-y-0">
         {msItems.map((item, i) => (
           <div
             key={item.name}
@@ -47,7 +47,7 @@ export function MicrosoftBar() {
           </div>
         ))}
       </div>
-      <div className="ml-auto flex items-center gap-1.5 text-[10px] font-semibold text-risk-low whitespace-nowrap">
+      <div className="flex flex-shrink-0 items-center gap-1.5 text-[10px] font-semibold text-risk-low sm:ml-auto">
         <span className="w-1.5 h-1.5 rounded-full bg-risk-low" />
         All Connected
       </div>

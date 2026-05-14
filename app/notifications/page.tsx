@@ -86,7 +86,7 @@ function NotifCard({
 
   return (
     <div
-      className={`relative flex gap-4 px-5 py-4 border-b border-[rgba(255,255,255,0.04)] last:border-0 transition-colors duration-150 group ${
+      className={`relative flex gap-3 px-4 py-4 border-b border-[rgba(255,255,255,0.04)] last:border-0 transition-colors duration-150 group sm:gap-4 sm:px-5 ${
         !notif.read ? "bg-[rgba(97,59,254,0.04)]" : "hover:bg-[rgba(255,255,255,0.02)]"
       }`}
     >
@@ -104,8 +104,8 @@ function NotifCard({
 
       {/* Content */}
       <div className="flex-1 min-w-0">
-        <div className="flex items-start justify-between gap-3">
-          <div className="flex items-center gap-2 flex-wrap">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between sm:gap-3">
+          <div className="flex min-w-0 flex-wrap items-center gap-2">
             {/* Priority dot — only for unread high/medium */}
             {!notif.read && notif.priority !== "low" && (
               <span
@@ -127,7 +127,7 @@ function NotifCard({
           </div>
 
           {/* Timestamp + actions */}
-          <div className="flex items-center gap-2 flex-shrink-0">
+          <div className="flex flex-shrink-0 items-center gap-2 self-start sm:self-auto">
             <span className="text-[10px] text-secondary-300 whitespace-nowrap">
               {notif.timeAgo}
             </span>
@@ -231,9 +231,9 @@ export default function NotificationsPage() {
   return (
     <MainLayout>
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center gap-3">
-          <h1 className="text-xl font-semibold text-secondary-100">Notifications</h1>
+      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex min-w-0 flex-wrap items-center gap-3">
+          <h1 className="text-lg font-semibold text-secondary-100 sm:text-xl">Notifications</h1>
           {unreadCount > 0 && (
             <span className="flex items-center gap-1.5 text-[11px] font-semibold text-secondary bg-[rgba(97,59,254,0.15)] border border-[rgba(97,59,254,0.3)] px-2.5 py-1 rounded-full">
               <span className="w-1.5 h-1.5 rounded-full bg-secondary" />
@@ -241,7 +241,7 @@ export default function NotificationsPage() {
             </span>
           )}
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           {unreadCount > 0 && (
             <button
               onClick={markAllRead}
@@ -263,7 +263,7 @@ export default function NotificationsPage() {
       </div>
 
       {/* Summary tiles */}
-      <div className="grid grid-cols-5 gap-3 mb-5">
+      <div className="mb-5 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
         {(["sama", "evidence", "approval", "task", "system"] as NotificationType[]).map(
           (type) => {
             const cfg = typeConfig[type];
@@ -298,13 +298,13 @@ export default function NotificationsPage() {
       </div>
 
       {/* Filter bar */}
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-1.5">
+      <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="-mx-1 flex gap-1.5 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:overflow-visible sm:pb-0 [&::-webkit-scrollbar]:hidden">
           {filterOptions.map((opt) => (
             <button
               key={opt.key}
               onClick={() => setFilter(opt.key)}
-              className={`px-3 py-1.5 rounded-full text-[11px] font-medium border transition-all ${
+              className={`flex-shrink-0 px-3 py-1.5 rounded-full text-[11px] font-medium border transition-all ${
                 filter === opt.key
                   ? "bg-[rgba(97,59,254,0.15)] border-[rgba(97,59,254,0.35)] text-[#A48DFF]"
                   : "border-[rgba(255,255,255,0.08)] text-secondary-300 hover:border-[rgba(255,255,255,0.15)] hover:text-secondary-100"
@@ -374,7 +374,7 @@ export default function NotificationsPage() {
 
       {/* SAMA alert banner — shown only when there are unread SAMA notifications */}
       {items.some((n) => n.type === "sama" && !n.read) && (
-        <div className="mt-5 flex items-start gap-3 px-5 py-4 rounded-md bg-[rgba(239,68,68,0.06)] border border-[rgba(239,68,68,0.2)]">
+        <div className="mt-5 flex flex-col gap-3 rounded-md border border-[rgba(239,68,68,0.2)] bg-[rgba(239,68,68,0.06)] px-4 py-4 sm:flex-row sm:items-start sm:gap-3 sm:px-5">
           <AlertTriangle size={16} className="text-risk-high flex-shrink-0 mt-0.5" />
           <div className="flex-1 min-w-0">
             <p className="text-xs font-semibold text-risk-high mb-0.5">
@@ -388,7 +388,7 @@ export default function NotificationsPage() {
           </div>
           <Link
             href="/regulations"
-            className="flex-shrink-0 btn-brand text-[11px] px-3 py-1.5"
+            className="btn-brand flex-shrink-0 self-start px-3 py-1.5 text-[11px] sm:self-auto"
           >
             Go to Regulations
           </Link>

@@ -33,7 +33,8 @@ const pipelineSteps = ["Detected", "Mapped", "Assigned", "Validated"];
 function PipelineBar({ status }: { status: SamaUpdate["status"] }) {
   const idx = status === "detected" ? 0 : status === "mapped" ? 1 : 2;
   return (
-    <div className="flex items-center gap-0">
+    <div className="max-w-full overflow-x-auto pb-1">
+      <div className="flex w-max min-w-0 items-center gap-0">
       {pipelineSteps.map((step, i) => (
         <div key={step} className="flex items-center">
           <div className={`flex items-center gap-1.5 px-2 py-1 rounded-sm text-[10px] font-semibold ${
@@ -51,6 +52,7 @@ function PipelineBar({ status }: { status: SamaUpdate["status"] }) {
           )}
         </div>
       ))}
+      </div>
     </div>
   );
 }
@@ -91,14 +93,14 @@ export default function RegulationsPage() {
   return (
     <MainLayout>
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h1 className="text-xl font-semibold text-secondary-100">SAMA Regulatory Feed</h1>
-          <p className="text-xs text-secondary-300 mt-0.5">
+      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div className="min-w-0">
+          <h1 className="text-lg font-semibold text-secondary-100 sm:text-xl">SAMA Regulatory Feed</h1>
+          <p className="mt-0.5 text-xs text-secondary-300">
             {updates.length} regulatory updates · {counts.detected} requiring immediate action
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-shrink-0 flex-wrap items-center gap-2">
           <div className="flex items-center gap-1.5 text-[11px] text-risk-low font-semibold px-3 py-1.5 rounded-full border border-[rgba(34,197,94,0.25)] bg-[rgba(34,197,94,0.08)]">
             <span className="w-1.5 h-1.5 rounded-full bg-risk-low animate-pulse" />
             Live Feed Active
@@ -110,7 +112,7 @@ export default function RegulationsPage() {
       </div>
 
       {/* Pipeline summary */}
-      <div className="grid grid-cols-3 gap-4 mb-5">
+      <div className="mb-5 grid grid-cols-1 gap-4 sm:grid-cols-3">
         {[
           { label: "Detected", count: counts.detected, desc: "Awaiting mapping to controls", cls: "border-[rgba(239,68,68,0.25)] bg-[rgba(239,68,68,0.05)]", textCls: "text-risk-high", Icon: AlertTriangle },
           { label: "Mapped", count: counts.mapped, desc: "Controls identified, assigning owners", cls: "border-[rgba(249,169,49,0.25)] bg-[rgba(249,169,49,0.05)]", textCls: "text-risk-medium", Icon: Map },
@@ -128,8 +130,8 @@ export default function RegulationsPage() {
       </div>
 
       {/* Filters */}
-      <div className="flex items-center gap-3 mb-4">
-        <div className="flex items-center gap-2 flex-1 bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.07)] rounded-sm px-3 py-2">
+      <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+        <div className="flex min-w-0 flex-1 items-center gap-2 rounded-sm border border-[rgba(255,255,255,0.07)] bg-[rgba(255,255,255,0.03)] px-3 py-2">
           <Search size={14} className="text-secondary-300 flex-shrink-0" />
           <input
             type="text"
@@ -139,7 +141,7 @@ export default function RegulationsPage() {
             className="bg-transparent text-xs text-secondary-100 placeholder:text-secondary-300 outline-none flex-1"
           />
         </div>
-        <div className="relative">
+        <div className="relative w-full sm:w-auto sm:min-w-[140px]">
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value as any)}
@@ -168,8 +170,8 @@ export default function RegulationsPage() {
             />
             <div className="relative z-10">
               {/* Top row */}
-              <div className="flex items-start justify-between gap-4 mb-4">
-                <div className="flex items-start gap-3 flex-1">
+              <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                <div className="flex min-w-0 flex-1 items-start gap-3">
                   {statusIcon[update.status]}
                   <div>
                     <div className="flex items-center gap-2 mb-1">
@@ -187,7 +189,7 @@ export default function RegulationsPage() {
                     </h3>
                   </div>
                 </div>
-                <div className="flex items-center gap-2 flex-shrink-0">
+                <div className="flex flex-shrink-0 flex-col gap-2 sm:flex-row sm:items-center">
                   <span className={`text-[10px] font-semibold tracking-[0.08em] uppercase px-2.5 py-1 rounded-full border ${getSamaStatusClass(update.status)}`}>
                     {getSamaStatusLabel(update.status)}
                   </span>
@@ -202,9 +204,11 @@ export default function RegulationsPage() {
               </p>
 
               {/* Pipeline + impact */}
-              <div className="flex items-center justify-between pt-4 border-t border-[rgba(255,255,255,0.04)]">
-                <PipelineBar status={update.status} />
-                <div className="flex items-center gap-4">
+              <div className="flex flex-col gap-4 border-t border-[rgba(255,255,255,0.04)] pt-4 sm:flex-row sm:items-center sm:justify-between">
+                <div className="min-w-0 shrink-0 overflow-x-auto">
+                  <PipelineBar status={update.status} />
+                </div>
+                <div className="flex flex-shrink-0 flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
                   <span className={`text-[11px] font-semibold ${impactColor[update.status]}`}>
                     {update.status === "detected"
                       ? `⚠ ${update.impactedControls} controls impacted`

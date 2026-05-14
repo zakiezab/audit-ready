@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Search, Download, Bell } from "lucide-react";
+import { Search, Download, Bell, Menu } from "lucide-react";
 import { notifications } from "@/lib/mock-data";
 
 const breadcrumbMap: Record<string, string> = {
@@ -16,36 +16,53 @@ const breadcrumbMap: Record<string, string> = {
   "/reports": "Reports & Export",
 };
 
-export function Topbar() {
+type TopbarProps = {
+  onMenuClick?: () => void;
+};
+
+export function Topbar({ onMenuClick }: TopbarProps) {
   const pathname = usePathname();
   const current = breadcrumbMap[pathname] ?? "Dashboard";
 
   return (
-    <header className="h-[60px] border-b border-[rgba(255,255,255,0.08)] flex items-center px-7 gap-4 sticky top-0 z-40 bg-dark/90 backdrop-blur-md">
+    <header className="sticky top-0 z-40 flex h-[60px] items-center gap-2 border-b border-[rgba(255,255,255,0.08)] bg-dark/90 px-4 backdrop-blur-md sm:gap-4 sm:px-7">
+      <button
+        type="button"
+        onClick={onMenuClick}
+        aria-label="Open navigation menu"
+        className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-sm border border-[rgba(255,255,255,0.1)] text-secondary-200 transition-colors hover:border-[rgba(255,255,255,0.2)] hover:bg-[rgba(255,255,255,0.05)] lg:hidden"
+      >
+        <Menu size={18} strokeWidth={2} />
+      </button>
+
       {/* Breadcrumb */}
-      <div className="flex items-center gap-2 text-xs text-secondary-300">
-        <span>Audit Ready</span>
-        <span className="opacity-30">›</span>
-        <span className="text-secondary-100 font-medium">{current}</span>
+      <div className="min-w-0 flex-1 truncate text-xs text-secondary-300 sm:flex-initial">
+        <span className="hidden sm:inline">Audit Ready</span>
+        <span className="mx-1.5 opacity-30 sm:mx-2">›</span>
+        <span className="font-medium text-secondary-100">{current}</span>
       </div>
 
-      <div className="ml-auto flex items-center gap-3">
+      <div className="ml-auto flex min-w-0 flex-shrink-0 items-center gap-2 sm:gap-3">
         {/* Live indicator */}
-        <div className="flex items-center gap-1.5 text-[10px] font-semibold tracking-[0.08em] uppercase text-risk-low">
-          <span className="w-1.5 h-1.5 rounded-full bg-risk-low animate-pulse" />
+        <div className="hidden items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.08em] text-risk-low md:flex">
+          <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-risk-low" />
           SAMA Sync Active
         </div>
 
-        <div className="w-px h-5 bg-[rgba(255,255,255,0.08)]" />
+        <div className="hidden h-5 w-px bg-[rgba(255,255,255,0.08)] md:block" />
 
         {/* Search */}
-        <div className="flex items-center gap-2 bg-[rgba(42,30,92,0.35)] border border-[rgba(255,255,255,0.08)] rounded-sm px-3 py-1.5 text-xs text-secondary-300 w-44 hover:border-[rgba(255,255,255,0.15)] transition-all cursor-text">
+        <div className="hidden w-44 cursor-text items-center gap-2 rounded-sm border border-[rgba(255,255,255,0.08)] bg-[rgba(42,30,92,0.35)] px-3 py-1.5 text-xs text-secondary-300 transition-all hover:border-[rgba(255,255,255,0.15)] sm:flex">
           <Search size={11} />
           Search...
         </div>
 
         {/* Download */}
-        <button className="w-8 h-8 rounded-sm flex items-center justify-center text-secondary-300 hover:text-secondary-100 hover:bg-[rgba(255,255,255,0.06)] transition-all">
+        <button
+          type="button"
+          className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-sm text-secondary-300 transition-all hover:bg-[rgba(255,255,255,0.06)] hover:text-secondary-100"
+          aria-label="Download"
+        >
           <Download size={14} />
         </button>
 
@@ -55,11 +72,12 @@ export function Topbar() {
           return (
             <Link
               href="/notifications"
-              className="w-8 h-8 rounded-sm flex items-center justify-center text-secondary-300 hover:text-secondary-100 hover:bg-[rgba(255,255,255,0.06)] transition-all relative"
+              className="relative flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-sm text-secondary-300 transition-all hover:bg-[rgba(255,255,255,0.06)] hover:text-secondary-100"
+              aria-label="Notifications"
             >
               <Bell size={14} />
               {unread > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 min-w-[14px] h-[14px] px-[3px] bg-primary rounded-full border-[1.5px] border-dark flex items-center justify-center text-[8px] font-bold text-white leading-none">
+                <span className="absolute -right-0.5 -top-0.5 flex h-[14px] min-w-[14px] items-center justify-center rounded-full border-[1.5px] border-dark bg-primary px-[3px] text-[8px] font-bold leading-none text-white">
                   {unread}
                 </span>
               )}
@@ -67,12 +85,12 @@ export function Topbar() {
           );
         })()}
 
-        <div className="w-px h-5 bg-[rgba(255,255,255,0.08)]" />
+        <div className="hidden h-5 w-px bg-[rgba(255,255,255,0.08)] sm:block" />
 
         {/* Avatar */}
         <Link
           href="/profile"
-          className="w-7 h-7 rounded-full bg-gradient-to-br from-secondary to-primary flex items-center justify-center text-[10px] font-semibold text-white hover:ring-2 hover:ring-secondary/50 transition-all"
+          className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-secondary to-primary text-[10px] font-semibold text-white transition-all hover:ring-2 hover:ring-secondary/50"
         >
           ZZ
         </Link>

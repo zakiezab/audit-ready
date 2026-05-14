@@ -58,14 +58,14 @@ export default function ControlsPage() {
   return (
     <MainLayout>
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h1 className="text-xl font-semibold text-secondary-100">Controls Library</h1>
+      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div className="min-w-0">
+          <h1 className="text-lg font-semibold text-secondary-100 sm:text-xl">Controls Library</h1>
           <p className="text-xs text-secondary-300 mt-0.5">
             {controls.length} controls · {controls.filter((c) => c.risk === "high").length} high risk
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-shrink-0 flex-wrap gap-2">
           <button className="btn-outline-brand text-xs px-4 py-2">
             Export CSV
           </button>
@@ -76,9 +76,9 @@ export default function ControlsPage() {
       </div>
 
       {/* Filters bar */}
-      <div className="audit-card px-5 py-3 mb-5 flex items-center gap-3">
+      <div className="audit-card mb-5 flex flex-col gap-3 px-4 py-3 lg:flex-row lg:items-center lg:gap-3 lg:px-5">
         {/* Search */}
-        <div className="flex items-center gap-2 flex-1 bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.07)] rounded-sm px-3 py-2">
+        <div className="flex min-w-0 flex-1 items-center gap-2 rounded-sm border border-[rgba(255,255,255,0.07)] bg-[rgba(255,255,255,0.03)] px-3 py-2">
           <Search size={14} className="text-secondary-300 flex-shrink-0" />
           <input
             type="text"
@@ -90,11 +90,11 @@ export default function ControlsPage() {
         </div>
 
         {/* Risk filter */}
-        <div className="relative">
+        <div className="relative w-full min-w-0 lg:w-auto">
           <select
             value={riskFilter}
             onChange={(e) => setRiskFilter(e.target.value as RiskFilter)}
-            className="appearance-none bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.07)] rounded-sm pl-3 pr-8 py-2 text-xs text-secondary-100 outline-none cursor-pointer"
+            className="w-full cursor-pointer appearance-none rounded-sm border border-[rgba(255,255,255,0.07)] bg-[rgba(255,255,255,0.03)] py-2 pl-3 pr-8 text-xs text-secondary-100 outline-none lg:w-auto"
           >
             {riskOptions.map((o) => (
               <option key={o.key} value={o.key}>{o.label}</option>
@@ -104,11 +104,11 @@ export default function ControlsPage() {
         </div>
 
         {/* Status filter */}
-        <div className="relative">
+        <div className="relative w-full min-w-0 lg:w-auto">
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value as StatusFilter)}
-            className="appearance-none bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.07)] rounded-sm pl-3 pr-8 py-2 text-xs text-secondary-100 outline-none cursor-pointer"
+            className="w-full cursor-pointer appearance-none rounded-sm border border-[rgba(255,255,255,0.07)] bg-[rgba(255,255,255,0.03)] py-2 pl-3 pr-8 text-xs text-secondary-100 outline-none lg:w-auto"
           >
             {statusOptions.map((o) => (
               <option key={o.key} value={o.key}>{o.label}</option>
@@ -118,11 +118,11 @@ export default function ControlsPage() {
         </div>
 
         {/* Domain filter */}
-        <div className="relative">
+        <div className="relative w-full min-w-0 lg:w-auto">
           <select
             value={domainFilter}
             onChange={(e) => setDomainFilter(e.target.value)}
-            className="appearance-none bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.07)] rounded-sm pl-3 pr-8 py-2 text-xs text-secondary-100 outline-none cursor-pointer"
+            className="w-full cursor-pointer appearance-none rounded-sm border border-[rgba(255,255,255,0.07)] bg-[rgba(255,255,255,0.03)] py-2 pl-3 pr-8 text-xs text-secondary-100 outline-none lg:w-auto"
           >
             {domains.map((d) => (
               <option key={d} value={d}>{d === "all" ? "All Domains" : d}</option>
@@ -131,7 +131,7 @@ export default function ControlsPage() {
           <ChevronDown size={12} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-secondary-300 pointer-events-none" />
         </div>
 
-        <div className="flex items-center gap-1.5 text-secondary-300 ml-auto">
+        <div className="flex flex-wrap items-center gap-1.5 text-secondary-300 lg:ml-auto">
           <SlidersHorizontal size={14} />
           <span className="text-[11px]">{filtered.length} results</span>
         </div>

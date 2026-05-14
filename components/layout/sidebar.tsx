@@ -42,17 +42,29 @@ const navItems = [
   {
     section: "Outputs",
     items: [
-      { label: "Reports & Export", href: "/reports", icon: Download },
+      { label: "Audit Export", href: "/reports", icon: Download },
     ],
   },
 ];
 
-export function Sidebar() {
+type SidebarProps = {
+  /** When true, drawer is visible on small screens (desktop always shows sidebar). */
+  isOpen?: boolean;
+  /** Called after navigating (closes mobile drawer). */
+  onNavigate?: () => void;
+};
+
+export function Sidebar({ isOpen = false, onNavigate }: SidebarProps) {
   const pathname = usePathname();
   const [userMenuOpen, setUserMenuOpen] = useState(false);
 
   return (
-    <aside className="fixed inset-y-0 left-0 w-[240px] flex flex-col bg-[#181227] border-r border-[rgba(255,255,255,0.08)] z-50">
+    <aside
+      className={cn(
+        "fixed inset-y-0 left-0 z-50 flex w-[min(260px,88vw)] flex-col border-r border-[rgba(255,255,255,0.08)] bg-[#181227] transition-transform duration-200 ease-out lg:w-[240px]",
+        isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+      )}
+    >
       {/* Logo */}
       <div className="flex items-center gap-2.5 px-5 py-5 border-b border-[rgba(255,255,255,0.08)]">
         <div className="w-[34px] h-[34px] bg-primary rounded-sm flex items-center justify-center flex-shrink-0">
@@ -81,6 +93,7 @@ export function Sidebar() {
                 <Link
                   key={item.href}
                   href={item.href}
+                  onClick={() => onNavigate?.()}
                   className={cn("nav-item", active && "active")}
                 >
                   <item.icon size={15} className="flex-shrink-0 opacity-70" />
@@ -101,6 +114,7 @@ export function Sidebar() {
         {/* Settings */}
         <Link
           href="/settings"
+          onClick={() => onNavigate?.()}
           className={cn("nav-item mt-2", pathname === "/settings" && "active")}
         >
           <Settings size={15} className="flex-shrink-0 opacity-70" />
@@ -115,7 +129,10 @@ export function Sidebar() {
           <div className="absolute bottom-[calc(100%-8px)] left-3 right-3 bg-[#1E1535] border border-[rgba(255,255,255,0.1)] rounded-sm shadow-xl overflow-hidden z-50">
             <Link
               href="/profile"
-              onClick={() => setUserMenuOpen(false)}
+              onClick={() => {
+                setUserMenuOpen(false);
+                onNavigate?.();
+              }}
               className="flex items-center gap-2.5 px-3 py-2.5 text-xs text-secondary-100 hover:bg-[rgba(255,255,255,0.06)] transition-colors"
             >
               <UserCircle size={13} className="text-secondary-300 flex-shrink-0" />
@@ -123,7 +140,10 @@ export function Sidebar() {
             </Link>
             <Link
               href="/settings"
-              onClick={() => setUserMenuOpen(false)}
+              onClick={() => {
+                setUserMenuOpen(false);
+                onNavigate?.();
+              }}
               className="flex items-center gap-2.5 px-3 py-2.5 text-xs text-secondary-100 hover:bg-[rgba(255,255,255,0.06)] transition-colors border-t border-[rgba(255,255,255,0.04)]"
             >
               <Settings size={13} className="text-secondary-300 flex-shrink-0" />
